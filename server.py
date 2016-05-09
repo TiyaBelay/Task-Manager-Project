@@ -5,6 +5,7 @@ import sys
 import os
 import auth_code_access_tok_offline
 
+from jinja2 import StrictUndefined
 from flask import Flask, session, render_template, request, flash, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
@@ -16,15 +17,11 @@ CLIENT_ID = json.loads(open('client_secret.json', 'r').read())['web']['client_id
 app.secret_key = "Tobefilledin"
 
 
+app.jinja_env.undefined = StrictUndefined
+
 @app.route("/")
 def base():
     """Index Page."""
-
-    return render_template("base.html")
-
-@app.route("/login")
-def Signin():
-    """Gmail Signin."""
 
     return render_template("login.html")
 

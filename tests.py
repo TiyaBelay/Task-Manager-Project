@@ -73,7 +73,7 @@ class TMTestsDatabase(unittest.TestCase):
     def test_pages(self):
         #FIXME: test that the pages displays from all example_()_data() functions
 
-
+        pass
 
 if __name__ == "__main__":
     unittest.main()
