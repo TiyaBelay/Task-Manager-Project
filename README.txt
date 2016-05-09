@@ -8,5 +8,6 @@ Virtual environment created for this project with the following installed:
 
 Implementing Gmail RESTful API:
     Used Google Sign-in to provide the user secure login and to avoid the user from
-    having to remember an additional username and passwords.
+    having to remember an additional username and passwords. Once user signs in
+    and 
 

@@ -1,0 +1,166 @@
+<!doctype html>
+<!--
+/*
+ *
+ * Copyright Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google Sign-In Sample</title>
+
+  <!-- Google Sign-In -->
+  <meta name="google-signin-client_id" content="{{client_id}}">
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+
+  <link rel="import" href="elements.html">
+  <style is="shared-style">
+    paper-button {
+      background-color: --var(light-primary-color);
+    }
+    .profile img {
+      clip-path: circle(50% at 50% 50%);
+      -webkit-clip-path: circle(50% at 50% 50%);
+      -moz-clip-path: circle(50% at 50% 50%);
+      -o-clip-path: circle(50% at 50% 50%);
+    }
+    #gsignin {
+      cursor: pointer;
+    }
+    #toast {
+      color: white;
+    }
+  </style>
+</head>
+
+<body unresolved class="fullbleed layout vertical">
+{% raw %} <template id="app" is="dom-bind">
+    <paper-dialog id="dialog" modal>
+      <h2>Please sign-in</h2>
+      <div id="gsignin" on-tap="signIn">
+        <img src="google_signin.png" />
+      </div>
+    </paper-dialog>
+
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="paper-font-title">Menu</span>
+        </paper-toolbar>
+
+        <paper-menu selected="[[selected]]">
+          <paper-item><a href="?mode=introduction">Introduction to Google Sign-In</a></paper-item>
+          <paper-item><a href="?mode=authentication_with_backends">Authentication with backends</a></paper-item>
+          <paper-item><a href="?mode=authorization_client">Authorization on Client</a></paper-item>
+          <paper-item><a href="?mode=authorization_server">Authorization on Server</a></paper-item>
+        </paper-menu>
+
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel main>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+
+          <!-- Application name -->
+          <div class="title app-name flex">Google Sign-In Sample</div>
+
+          <!-- Toolbar icons -->
+          <template is="dom-if" if="[[!profile]]">
+            <paper-button on-tap="openDialog" raised>Sign In</paper-button>
+          </template>
+          <template is="dom-if" if="[[profile]]">
+            <paper-button on-tap="signOut" raised>Sign Out</paper-button>
+          </template>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <section>
+            <template is="dom-if" if="[[profile]]">
+              <div class="profile layout center vertical">
+                <h2>Welcome back! <span>[[profile.name]]</span></h2>
+                <div class="flex">
+                  <img src="[[profile.imageUrl]]"/>
+                </div>
+              </div>
+            </template>
+          </section>{% endraw %}
+{% if mode == 'authorization_client' or mode == 'authorization_server' %}
+          <!-- below part is only displayed when 'Authorization' mode -->
+          <section>
+            <template is="dom-if" if="[[profile]]">
+              <paper-button raised on-tap="authorize">Read files from Google Drive</paper-button>
+            </template>
+            <template is="dom-if" if="[[files.length]]">
+              <table>
+                <tr>
+                  <th> Title </th>
+                  <th> Last Modified </th>
+                </tr>
+                <template is="dom-repeat" items="[[files]]">
+                  <tr>
+                    <td>
+                      <a href="[[item.webViewLink]]" target="_blank">[[item.name]]</a>
+                    </td>
+                    <td>[[item.modifiedTime]]</td>
+                  </tr>
+                </template>
+              </table>
+            </template>
+          </section>
+{% endif %}
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
+    <paper-toast id="toast" duration="3000"></paper-toast>
+  </template>
+
+  <script src="scripts/app.js"></script>
+  <script src="scripts/{{mode}}.js"></script>
+  <script>
+    app.mode = '{{mode}}';
+    switch (app.mode) {
+      case 'authentication_with_backends':
+        app.selected = 1;
+        app.link = '';
+        break;
+      case 'authorization_client':
+        app.selected = 2;
+        app.link = '';
+        break;
+      case 'authorization_server':
+        app.selected = 3;
+        app.link = '';
+        break;
+      default:
+        app.selected = 0;
+        app.link = '';
+        break;
+    }
+  </script>
+</body>
+</html>
