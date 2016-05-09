@@ -2,3 +2,6 @@ client_secret.json
 env/
 .DS_Store
 requirements.txt
+model.pyc
+server.pyc
+auth_code_access_tok_offline.pyc
