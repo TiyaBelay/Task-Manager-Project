@@ -13,8 +13,7 @@ try:
 except ImportError:
     flags = None
 
-# If modifying these scopes, delete your previously saved credentials
-# at ~/.credentials/gmail-python-quickstart.json
+
 SCOPES = 'https://www.googleapis.com/auth/gmail.modify' #All read write ops except for perm deletions
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'Gmail API Python Quickstart'
