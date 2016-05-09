@@ -6,16 +6,6 @@ from apiclient.discovery import build
 import client_secret
 
 
-# Path to client_secrets.json which should contain a JSON document such as:
-#   {
-#     "web": {
-#       "client_id": "[[YOUR_CLIENT_ID]]",
-#       "client_secret": "[[YOUR_CLIENT_SECRET]]",
-#       "redirect_uris": [],
-#       "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#       "token_uri": "https://accounts.google.com/o/oauth2/token"
-#     }
-#   }
 CLIENTSECRETS_LOCATION = '/Users/TMD/Desktop/Task-Manager-Project/Client_secret.json'
 REDIRECT_URI = 'http://localhost:5000'
 SCOPES = [
