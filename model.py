@@ -29,9 +29,9 @@ class Email(db.Model):
     sender_email = db.Column(db.String(30), nullable=False)
     sender_f_name = db.Column(db.String(30), nullable=False)
     sender_l_name = db.Column(db.String(30), nullable=False)
-    received_at = db.Column(db.Integer, nullable=False)
-    attachment_received = db.Column(db.Boolean, nullable=True)
-    body_keywords = db.Column(db.String(500), nullable=True)
+    received_at = db.Column(db.DateTime, nullable=False)
+    attachment_received = db.Column(db.Boolean, nullable=False)
+    body_content = db.Column(db.String(1000), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -46,8 +46,8 @@ class Task(db.Model):
     email_id = db.Column(db.Integer, db.ForeignKey('emails.email_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     task_name = db.Column(db.String(20), nullable=False)
-    task_created_at = db.Column(db.datetime, nullable=False)
-    due_date = db.Column(db.datetime, nullable=False)
+    task_created_at = db.Column(db.DateTime, nullable=False)
+    due_date = db.Column(db.DateTime, nullable=False)
     task_completed = db.Column(db.Boolean, nullable=False)
 
 
@@ -67,6 +67,14 @@ class Checklist(db.Model):
         """Provide helpful representation when printed."""
 
         return "<Checklist task_id=%s checklist=%s>" % (self.task_id, self.checklist)
+
+
+def connect_to_db(app, db_uri="postgresql:///taskmanager"):
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    db.app = app
+    db.init_app(app)
+
+
 ##############################################################################
 # Test functions
 
@@ -74,22 +82,32 @@ def example_user_data():
     """Create example data for the test database."""
     #FIXME: write a function that creates a user and adds it to the database.
 
-    db.session.add()
+    tiya = User(f_name='Tiya', l_name='Belay', email='tiya@gmail.com')
+    din = User(f_name='Din', l_name='Kostka', email='dinny@gmail.com')
+
+    db.session.add_all([tiya, din])
     db.session.commit()
+ 
 
 def example_email_data():
     """Create example data for the test database."""
     #FIXME: write a function that creates an email and adds it to the database.
 
-    db.session.add()
+    testing = Email(subject='Check in', sender_email = 'test@gmail.com', sender_f_name = 'Test', sender_l_name = 'Junior', received_at = '05/09/2016', attachment_received = 'False', body_content = 'Wanted to check in on you and make sure everything is good!')
+
+    db.session.add(testing)
     db.session.commit()
+
 
 def example_task_data():
     """Create example data for the test database."""
     #FIXME: write a function that creates a task and adds it to the database.
 
-    db.session.add()
+    firsttask = Task(task_name='Complete test db', task_created_at='05/09/2016', due_date='05/09/2016', task_completed='False')
+
+    db.session.add(firsttask)
     db.session.commit()
+
 
 def example_checklist_data():
     """Create example data for the test database."""
@@ -105,7 +123,7 @@ def example_checklist_data():
 def connect_to_db(app):
     """Connect the database to the Flask app"""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres:///taskmanager'
     db.app = app
     db.init_app(app)
 

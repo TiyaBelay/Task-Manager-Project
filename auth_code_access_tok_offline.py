@@ -3,10 +3,10 @@ import logging
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from apiclient.discovery import build
-import client_secret
+# import client_secret
 
 
-CLIENTSECRETS_LOCATION = '/Users/TMD/Desktop/Task-Manager-Project/Client_secret.json'
+CLIENTSECRETS_LOCATION = '/Users/TMD/Desktop/Task-Manager-Project/client_secret.json'
 REDIRECT_URI = 'http://localhost:5000'
 SCOPES = [
     'https://www.googleapis.com/auth/gmail.readonly',

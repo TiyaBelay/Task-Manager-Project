@@ -4,41 +4,47 @@ from server import app
 from model import db, example_user_data, example_email_data, example_task_data, connect_to_db
 
 
-class TaskManagerTests(unittest.TestCase):
-    """Tests for Task Manager site."""
+# class TaskManagerTests(unittest.TestCase):
+#     """Tests for Task Manager site."""
 
-    def setUp(self):
-        self.client = app.test_client()
-        app.config['TESTING'] = True
+#     def setUp(self):
+#         self.client = app.test_client()
+#         app.config['TESTING'] = True
 
-    def test_homepage(self):
-        # FIXME: Add a test
+#     def test_homepage(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_signin(self):
-        # FIXME: Add a test
+#     def test_signin(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_account_page(self):
-        # FIXME: Add a test
+#     def test_account_page(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_access_page(self):
-        # FIXME: Add a test
+#     def test_access_page(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_inbox(self):
-        # FIXME: Add a test
+#     def test_inbox(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_settings(self):
-        # FIXME: Add a test
+#     def test_settings(self):
+#         # FIXME: Add a test
 
+#     pass
 
-    def test_search_tasks(self):
-        # FIXME: Add a test
+#     def test_search_tasks(self):
+#         # FIXME: Add a test
 
-
+#     pass
 
 
 class TMTestsDatabase(unittest.TestCase):

@@ -1,3 +1,4 @@
 client_secret.json
 env/
 .DS_Store
+requirements.txt

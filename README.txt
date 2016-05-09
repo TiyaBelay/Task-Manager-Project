@@ -16,3 +16,7 @@ Implementing Gmail RESTful API:
 Created model.py, server.py, seed.py, tests.py as well as the skeleton templates to 
 assist in testing the Gmail scopes. To be updated on Monday, May 9.
 
+Created production database
+
+
+
