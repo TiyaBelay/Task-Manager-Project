@@ -3,9 +3,7 @@
 import json
 import sys
 import os
-import auth_code_access_tok_offline
 
-from jinja2 import StrictUndefined
 from flask import Flask, session, render_template, request, flash, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
@@ -16,26 +14,13 @@ CLIENT_ID = json.loads(open('client_secret.json', 'r').read())['web']['client_id
 
 app.secret_key = "Tobefilledin"
 
-
-app.jinja_env.undefined = StrictUndefined
+#Use os.envir (see lecture notes on how to store )
 
 @app.route("/")
 def base():
     """Index Page."""
 
     return render_template("login.html")
-
-@app.route("/account-page")
-def account_page():
-    """Choose Gmail account."""
-
-    return render_template("choose_account.html")
-
-@app.route("/access")
-def access_page():
-    """Gmail access authorization."""
-
-    return render_template("allow_access.html")
 
 @app.route("/inbox")
 def inbox_page():
@@ -54,7 +39,12 @@ def settings_page():
     """Settings page."""
 
     return render_template("settings.html")
-  
+
+@app.route("/signout")
+def signout():
+    """Signout"""
+
+    return redirect("/")
 
 if __name__ == "__main__":
     app.debug = True
