@@ -1,60 +1,97 @@
 """Task Manager Site."""
 
-import json
-import httplib2
+import email
+import base64
+import os
+import json, httplib2
+import command_line_inbox
 
-from apiclient import discovery
+from apiclient import discovery, errors
 from oauth2client import client
-from flask import Flask, session, render_template, request, flash, redirect
+from flask import Flask, session, render_template, request, flash, redirect, url_for
+from flask.json import jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
 
-app = Flask(__name__)
+app = Flask(__name__) #create a flask application
 
-# CLIENT_ID = json.loads(open('client_secret.json', 'r').read())['web']['client_id']
-
-app.secret_key = "\xa5\x85"
-
-#Use os.envir (see lecture notes on how to store )
+app.secret_key = os.environ["FLASK_APP_KEY"]
 
 @app.route("/")
-def base():
-    """Index Page."""
-
-  # if 'credentials' not in flask.session:
-  #   return flask.redirect(flask.url_for('oauth2callback'))
-  # credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
-  # if credentials.access_token_expired:
-  #   return flask.redirect(flask.url_for('oauth2callback'))
-  # else:
-  #   http_auth = credentials.authorize(httplib2.Http())
-  #   gmail_service = discovery.build('gmail', 'v1', http_auth)
-  #   files = gmail_service.files().list().execute()
-  #   return json.dumps(files)
+def login():
+    """Gmail login"""
 
     return render_template("login.html")
 
-@app.route('/oauth2callback')
+@app.route("/oauth2callback")
 def oauth2callback():
-  flow = client.flow_from_clientsecrets(
-      'client_secret.json',
-      scope='https://www.googleapis.com/auth/gmail.modify',
-      redirect_uri=flask.url_for('oauth2callback', _external=True),
-      include_granted_scopes=True)
-  if 'code' not in flask.request.args:
-    auth_uri = flow.step1_get_authorize_url()
-    return flask.redirect(auth_uri)
-  else:
-    auth_code = flask.request.args.get('code')
-    credentials = flow.step2_exchange(auth_code)
-    flask.session['credentials'] = credentials.to_json()
-    return flask.redirect(flask.url_for('index'))
+    flow = client.flow_from_clientsecrets(
+                    'client_secret.json',
+                    scope='https://www.googleapis.com/auth/gmail.readonly',
+                    redirect_uri=url_for('oauth2callback', _external=True),
+                    )
+    if 'code' not in request.args:
+        auth_uri = flow.step1_get_authorize_url()
+        return redirect(auth_uri)
+    else:
+        auth_code = request.args.get('code')
+        credentials = flow.step2_exchange(auth_code)
+        session['credentials'] = credentials.to_json()
+        return redirect(url_for('login'))
 
-@app.route("/inbox")
-def inbox_page():
-    """Inbox page."""
+@app.route('/inbox')
+def inbox():
+    if 'credentials' not in session:
+        return redirect(url_for('oauth2callback'))
+    credentials = client.OAuth2Credentials.from_json(session['credentials'])
+    if credentials.access_token_expired:
+        return redirect(url_for('oauth2callback'))
+    else:
+        http_auth = credentials.authorize(httplib2.Http())
+        gmail_service = discovery.build('gmail', 'v1', http_auth)
+        query = 'is:inbox'
+        """List all Messages of the user's inbox matching the query.
 
-    return render_template("inbox.html")
+        Args:
+        service: Authorized Gmail API service instance.
+        user_id: User's email address. The special value "me"
+        can be used to indicate the authenticated user.
+        query: String used to filter messages returned.
+        Eg.- 'from:user@some_domain.com' for Messages from a particular sender.
+
+        Returns:
+        List of Messages that match the criteria of the query. Note that the
+        returned list contains Message IDs, you must use get with the
+        appropriate ID to get the details of a Message.
+        """
+        # import pdb; pdb.set_trace() #Debugging
+
+        try:
+            response = gmail_service.users().messages().list(userId='me', q=query).execute() #this returns a list of nested dictionary within a dict 
+            messages = []
+            if 'messages' in response:
+                print 'test %s' % response
+                messages.extend(response['messages'])
+            while 'nextPageToken' in response:
+                page_token = response['nextPageToken'] #returns page_token as an integer
+                response = gmail_service.users().messages().list(userId='me', q=query, pageToken=page_token).execute() #returns list of messageid's and threadid's for a specific pagetoken
+                messages.extend(response['messages'])
+                msgs = response.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
+                # print msgs
+
+                for msg in msgs[:1]:
+                    message_info = get_message_by_id(gmail_service, 'me', msg['id'])
+                # print message_info
+                msg_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
+                # print msg_str #outputs body of message in html
+
+            return msg_str #outputs 1 msg string
+        except errors.HttpError, error:
+            print 'An error occurred: %s' % error
+
+def get_message_by_id(service, user_id, msg_id):
+    message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
+    return message
 
 @app.route("/search-task")
 def search_task():
@@ -75,11 +112,12 @@ def signout():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.debug = True
 
-    connect_to_db(app)
+    app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
-    #Use the DebugToolbar
-    #DebugToolbarExtension(app)
+    # connect_to_db(app)
+
+    # Use the DebugToolbar
+    # DebugToolbarExtension(app)
     
     app.run()

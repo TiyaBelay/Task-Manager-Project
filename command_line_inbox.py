@@ -5,7 +5,8 @@ from apiclient import discovery
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
-from pprint import pprint
+import email
+import base64
 
 try:
     import argparse #imported module from Gmails py lib
@@ -64,15 +65,25 @@ def get_messages_by_labelid(service, user_id, label_id):
     msgs = results.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
     # print msgs
 
-    for msg in msgs:
+    for msg in msgs[:1]:
         message_info = get_message_by_id(service, 'me', msg['id'])
     # print message_info
-        payload_info = message_info['payload']['headers']
-        print payload_info
+    msg_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
+    print msg_str #outputs body of message in html
+
+
+        # payload_info = message_info['payload']['headers']
+        # print payload_info
+        #Best way to approach this is create own dictionary with the new key and values names that I want
+        #Need to make the values of the keys in the list of dictionaries by my keys and values
+        # for i in payload_info:
+        #     for key, value in i.items():
+        #         if key == 'name':
+        #             print value
 
 
 def get_message_by_id(service, user_id, msg_id):
-    message = service.users().messages().get(userId=user_id, id=msg_id).execute()
+    message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
     return message
 
 

@@ -4,4 +4,4 @@ env/
 requirements.txt
 model.pyc
 server.pyc
-auth_code_access_tok_offline.pyc
+flask_tm_secret.sh
