@@ -21,10 +21,11 @@ as a dictionary. Next step is to filter through the inbox to have it return a li
 based on my data model, which will be seeded into my db and outputted onto the inbox page.
 
 I came across a blockage:
-    - redirect_uri was set in my console to render my inbox web page. After coming across the error that
-    my redirect uri was incorrect after running my command_line file and making sure that all my redirect_uri's
-    were following what was reflected in my dev console, it turned out that the redirect_uri should be set to
-    google's standard redirect_uri: http://localhost:8080/ which wasn't documented accurately
+
+redirect_uri was set in my console to render my inbox web page. After coming across the error that
+my redirect uri was incorrect after running my command_line file and making sure that all my redirect_uri's
+were following what was reflected in my dev console, it turned out that the redirect_uri should be set to
+google's standard redirect_uri: http://localhost:8080/ which wasn't documented accurately
 
 
 
