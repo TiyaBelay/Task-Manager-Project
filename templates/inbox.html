@@ -4,6 +4,10 @@
     <title>Inbox</title>
 </head>
 <body>
-
+    <ul>
+        {% for key, value in header_dict.items() %}
+            <li>{{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

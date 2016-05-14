@@ -4,7 +4,7 @@ import email
 import base64
 import os
 import json, httplib2
-import command_line_inbox
+import pprint
 
 from apiclient import discovery, errors
 from oauth2client import client
@@ -66,31 +66,44 @@ def inbox():
         """
         # import pdb; pdb.set_trace() #Debugging
 
+        header_dict = {}
+
         try:
             response = gmail_service.users().messages().list(userId='me', q=query).execute() #this returns a list of nested dictionary within a dict 
-            messages = []
+            list_messages = []
             if 'messages' in response:
                 print 'test %s' % response
-                messages.extend(response['messages'])
+                list_messages.extend(response['messages'])
             while 'nextPageToken' in response:
                 page_token = response['nextPageToken'] #returns page_token as an integer
                 response = gmail_service.users().messages().list(userId='me', q=query, pageToken=page_token).execute() #returns list of messageid's and threadid's for a specific pagetoken
-                messages.extend(response['messages'])
                 msgs = response.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
-                # print msgs
+                print msgs
 
-                for msg in msgs[:1]:
+                for msg in msgs:
                     message_info = get_message_by_id(gmail_service, 'me', msg['id'])
-                # print message_info
-                msg_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
-                # print msg_str #outputs body of message in html
+                    payload_headers = message_info['payload']['headers'] #This list of a dict will be used for my subj, from, datetime info 
+                    for dict_items in payload_headers:
+                        key = dict_items['name']
+                        print key #works
+                        value = dict_items['value']
+                        print value #works
+                        if key in ['Subject', 'From', 'Date']:
+                            header_dict[key] = value
 
-            return msg_str #outputs 1 msg string
+                return render_template("inbox.html", 
+                                        header_dict=header_dict
+                                        )
+                    # pprint.pprint(payload_contents) 
+                    # decoded_msg = base64.urlsafe_b64decode(payload['parts'][1]['body']['data'].encode('ASCII'))
+                    # print decoded_msg #outputs body of message in html
+
+            # return decoded_msg #outputs 1 msg string
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
 def get_message_by_id(service, user_id, msg_id):
-    message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
+    message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
     return message
 
 @app.route("/search-task")
@@ -112,7 +125,8 @@ def signout():
     return redirect("/")
 
 if __name__ == "__main__":
-
+    import logging
+    logging.basicConfig(filename='debug.log',level=logging.DEBUG)
     app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
     # connect_to_db(app)
