@@ -81,7 +81,7 @@ def inbox():
                 print msgs
 
                 for msg in msgs:
-                    message_info = get_message_by_id(gmail_service, 'me', msg['id'])
+                    message_info = get_message_header_by_id(gmail_service, 'me', msg['id'])
                     payload_headers = message_info['payload']['headers'] #This list of a dict will be used for my subj, from, datetime info 
                     for dict_items in payload_headers:
                         key = dict_items['name']
@@ -94,16 +94,43 @@ def inbox():
                 return render_template("inbox.html", 
                                         header_dict=header_dict
                                         )
-                    # pprint.pprint(payload_contents) 
-                    # decoded_msg = base64.urlsafe_b64decode(payload['parts'][1]['body']['data'].encode('ASCII'))
-                    # print decoded_msg #outputs body of message in html
-
-            # return decoded_msg #outputs 1 msg string
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
-def get_message_by_id(service, user_id, msg_id):
+def get_message_header_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
+    return message
+
+@app.route('/handle-message')
+def get_msg_body():
+    if 'credentials' not in session:
+        return redirect(url_for('oauth2callback'))
+    credentials = client.OAuth2Credentials.from_json(session['credentials'])
+    if credentials.access_token_expired:
+        return redirect(url_for('oauth2callback'))
+    else:
+        http_auth = credentials.authorize(httplib2.Http())
+        gmail_service = discovery.build('gmail', 'v1', http_auth)
+        query = 'is:inbox'
+
+        # import pdb; pdb.set_trace() #Debugging
+        #Grabs a list of nested dictionary within another dictionary {dict:[{dict:key}]}
+        results = gmail_service.users().messages().list(userId='me').execute()
+        print results
+        msgs = results.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
+        # print msgs
+
+        for msg in msgs[:1]:
+            message_info = get_message_body_by_id(gmail_service, 'me', msg['id'])
+        print message_info
+        msg_body = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
+        print msg_body #outputs body of message in html
+        return render_template("message_body.html", 
+                                msg_body=msg_body
+                                )
+
+def get_message_body_by_id(service, user_id, msg_id):
+    message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
     return message
 
 @app.route("/search-task")

@@ -4,10 +4,10 @@
     <title>Inbox</title>
 </head>
 <body>
-    <ul>
         {% for key, value in header_dict.items() %}
-            <li>{{ key }}: {{ value }}</li>
+            <a href="/handle-message">{{ key }}: {{ value }}</a>
         {% endfor %}
-    </ul>
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="/static/inbox.js"></script>
 </body>
 </html>
