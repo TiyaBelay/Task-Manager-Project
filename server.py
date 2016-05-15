@@ -123,10 +123,17 @@ def get_msg_body():
         for msg in msgs[:1]:
             message_info = get_message_body_by_id(gmail_service, 'me', msg['id'])
         print message_info
-        msg_body = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
-        print msg_body #outputs body of message in html
+        msg_body_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
+        msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
+        #Got this from Jarret Hardie on stackoverflow for how to convert an instance into plain text
+        for part in msg_body_inst.walk():
+            if part.get_content_type() == 'text/plain':
+                message = part.get_payload()
+                print message
+        # print msg_body_inst
+        # print type(msg_body) #outputs body of message in html
         return render_template("message_body.html", 
-                                msg_body=msg_body
+                                message=message
                                 )
 
 def get_message_body_by_id(service, user_id, msg_id):

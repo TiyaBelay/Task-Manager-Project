@@ -3,10 +3,13 @@
 <head>
     <title>Message</title>
 </head>
-<body>
-    {{ msg_body }}
+<body> 
+    <p align="right">
+    <button id='create-task' onclick="div_show()">Create a task</button>
+    </p>
+    {{ message }}
 
 <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/inbox.js"></script>
+<script src="/static/js/message_body.js"></script>
 </body>
 </html>
