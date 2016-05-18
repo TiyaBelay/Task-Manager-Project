@@ -55,7 +55,9 @@ during my second sprint where I will be using Angular. Currently, I'm just conce
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
 My inbox Page - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png
+
 Page with body of message when clicking on Subject link - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png
+
 Page with task when click on create task - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png
 
 Day 9-10:
