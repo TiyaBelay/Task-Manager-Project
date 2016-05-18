@@ -54,6 +54,8 @@ I've been rendering a page for the inbox, the body of the message, and the tasks
 during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
+https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png
+
 Day 9-10:
 Continue seeding my data and build tests to make sure all info that I have is being captured
 Implement Slack API for the checkbox feature to work (currently there's just a placeholder)
