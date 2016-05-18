@@ -54,9 +54,9 @@ I've been rendering a page for the inbox, the body of the message, and the tasks
 during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
-![alt tag](/Users/TMD/Desktop/Screen Shot 2016-05-17 at 5.16.45 PM.png "My Inbox page")
-![alt tag](/Users/TMD/Desktop/Screen Shot 2016-05-17 at 5.17.26 PM.png "Page with body of message when clicking on Subject link")
-![alt tag](/Users/TMD/Desktop/Screen Shot 2016-05-17 at 5.17.46 PM.png "Page with task when click on create task")
+My inbox Page - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png 
+Page with body of message when clicking on Subject link - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png 
+Page with task when click on create task - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png
 
 Day 9-10:
 Continue seeding my data and build tests to make sure all info that I have is being captured
