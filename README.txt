@@ -46,9 +46,17 @@ Parsing through the message body was also a bit challenging. After much research
 in the command-line application that I had set up previously to make sure to decode the body of my message and
 have it display on my web page.
 
-Next for Day 7-8: I will be cleaning up my message body and work on creatng a button for the message body to be
-able to create a task. I will also be working on retrieving more emails than just one and seeding
-my data into my db once i have the task feature set up.
+Day 7-8:
+Completed working on linking the subject to the message body and storing some of my messages in my db. I've linked the Subject to 
+message body. The message body is currently in a plain text format since it requires multi text parsing that I will be looking at
+later this week. When clicking on an email, the 'create task button' is available on the top right side of the page. Currently
+I've been rendering a page for the inbox, the body of the message, and the tasks. This will be changing into a 1-page browser
+during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
+the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
+
+Day 9-10:
+Continue seeding my data and build tests to make sure all info that I have is being captured
+Implement Slack API for the checkbox feature to work (currently there's just a placeholder)
 
 
 

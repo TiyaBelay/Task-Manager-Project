@@ -17,15 +17,15 @@ import email
 #     # Always commit
 #     db.session.commit()
 
-# def load_emails():
-#     #FIXME: write a function that parses emails and adds it to the database.
+def load_emails():
+    #FIXME: write a function that parses emails and adds it to the database.
 
 
-#         # Need to add to the session or it won't ever be stored
-#         db.session.add()
+        # Need to add to the session or it won't ever be stored
+        db.session.add()
 
-#     # Always commit
-#     db.session.commit()
+    # Always commit
+    db.session.commit()
 
 # def load_tasks():
 #     #FIXME: write a function that parses tasks and adds it to the database.

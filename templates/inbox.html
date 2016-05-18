@@ -1,13 +1,43 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="/static/css/inbox.css">
     <title>Inbox</title>
+
 </head>
 <body>
-        {% for key, value in header_dict.items() %}
-            <a href="/handle-message">{{ key }}: {{ value }}</a>
+    <div id="header">
+    <p align="right"><a href="#" onclick="signOut();">Sign out</a></p>
+    <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+    </script>
+    </div>
+
+    <div id="sidebar">
+    <h2>Folders</h2>
+    <p>Tasks</p>
+    </div>
+
+    <div id="content">
+    <table width="1300">
+        <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Date</th>
+
+        {% for key, message in headers_dict.items() %}
+        </tr>
+            <td> {{ message['From'] }}</td>
+            <td><div class="span4"><a href="/handle-message/{{ key }}">{{ message['Subject'] }} </a></div></td>
+            <td> {{ message['Date'] }}</td>
+        </tr>
         {% endfor %}
-<script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/inbox.js"></script>
+    </table>
+    </div>
 </body>
 </html>

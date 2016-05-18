@@ -5,8 +5,7 @@ from apiclient import discovery
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
-import email
-import base64
+
 
 try:
     import argparse #imported module from Gmails py lib
@@ -49,52 +48,15 @@ def get_credentials():
         print 'Storing credentials to ' + credential_path
     return credentials
 
+def get_api_object():
+    """This is used to make API calls"""
+    
+    credentials = get_credentials()
+    http=credentials.authorize(Http())
+    gmail_service = discovery.build('gmail', 'v1', http=http)
 
-def get_messages_by_labelid(service, user_id, label_id):
-    """Get messages given label ID.
-    Args:
-    user_id: User's email address. The special value "me"
-    can be used to indicate the authenticated user.
-    label_id: The ID of the label required.
-    Returns:
-    Messages in Label.
-    """
-    #Grabs a list of nested dictionary within another dictionary {dict:[{dict:key}]}
-    results = service.users().messages().list(userId=user_id, labelIds=label_id).execute()
-    # print results
-    msgs = results.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
-    # print msgs
+    return gmail_service
 
-    for msg in msgs[:1]:
-        message_info = get_message_by_id(service, 'me', msg['id'])
-    # print message_info
-    msg_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
-    print msg_str #outputs body of message in html
+def add_to_db():
 
-
-        # payload_info = message_info['payload']['headers']
-        # print payload_info
-        #Best way to approach this is create own dictionary with the new key and values names that I want
-        #Need to make the values of the keys in the list of dictionaries by my keys and values
-        # for i in payload_info:
-        #     for key, value in i.items():
-        #         if key == 'name':
-        #             print value
-
-
-def get_message_by_id(service, user_id, msg_id):
-    message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
-    return message
-
-
-# #The dunder name tells you what the name of your file is and in this case since
-# #we're calling the functions directly from the file, we can have our dunder name
-# #equal to __main__. However, if this file was imported into another file, everything
-# #outside of the function doesnt get called to the other file.
-# print "this file's dunder name is", __name__
-if __name__ == '__main__':
-
-    #Since the below will be called throughout the entirety of the file, I left it outside the function
-    credentials = get_credentials() 
-    service = discovery.build('gmail', 'v1', http=credentials.authorize(Http()))
-    msgs = get_messages_by_labelid(service, 'me', 'INBOX')
+    gmail_service = get_api_object()

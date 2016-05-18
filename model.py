@@ -23,14 +23,14 @@ class Email(db.Model):
     """Email details"""
 
     __tablename__ = "emails"
-    email_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    subject = db.Column(db.String(40), nullable=False)
-    sender_email = db.Column(db.String(30), nullable=False)
-    sender_f_name = db.Column(db.String(30), nullable=False)
-    sender_l_name = db.Column(db.String(30), nullable=False)
+    email_id = db.Column(db.String(100), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    subject = db.Column(db.String(120), nullable=False)
+    sender_email = db.Column(db.String(80), nullable=False)
+    sender_f_name = db.Column(db.String(30), nullable=True)
+    sender_l_name = db.Column(db.String(30), nullable=True)
     received_at = db.Column(db.DateTime, nullable=False)
-    attachment_received = db.Column(db.Boolean, nullable=False)
+    attachment_received = db.Column(db.Boolean, nullable=True)
     body_content = db.Column(db.String(1000), nullable=True)
 
     def __repr__(self):
@@ -68,13 +68,6 @@ class Checklist(db.Model):
 
         return "<Checklist task_id=%s checklist=%s>" % (self.task_id, self.checklist)
 
-
-def connect_to_db(app, db_uri="postgresql:///taskmanager"):
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    db.app = app
-    db.init_app(app)
-
-
 ##############################################################################
 # Test functions
 
@@ -88,6 +81,7 @@ def example_user_data():
     db.session.add_all([tiya, din])
     db.session.commit()
  
+    pass
 
 def example_email_data():
     """Create example data for the test database."""
@@ -98,6 +92,7 @@ def example_email_data():
     db.session.add(testing)
     db.session.commit()
 
+    pass
 
 def example_task_data():
     """Create example data for the test database."""
@@ -108,6 +103,7 @@ def example_task_data():
     db.session.add(firsttask)
     db.session.commit()
 
+    pass
 
 def example_checklist_data():
     """Create example data for the test database."""
@@ -116,6 +112,7 @@ def example_checklist_data():
     db.session.add()
     db.session.commit()
 
+    pass
 
 ##############################################################################
 # Helper functions
@@ -131,5 +128,12 @@ def connect_to_db(app):
 if __name__ == '__main__':
 
     from server import app
+    import os
+
+    os.system("dropdb taskmanager")
+    os.system("createdb taskmanager")
+
     connect_to_db(app)
     print "Connected to DB."
+
+    db.create_all()

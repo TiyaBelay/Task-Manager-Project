@@ -1,11 +1,12 @@
 """Task Manager Site."""
-
+import timestring
 import email
 import base64
 import os
 import json, httplib2
 import pprint
 
+from datetime import datetime
 from apiclient import discovery, errors
 from oauth2client import client
 from flask import Flask, session, render_template, request, flash, redirect, url_for
@@ -66,34 +67,57 @@ def inbox():
         """
         # import pdb; pdb.set_trace() #Debugging
 
-        header_dict = {}
-
         try:
-            response = gmail_service.users().messages().list(userId='me', q=query).execute() #this returns a list of nested dictionary within a dict 
-            list_messages = []
-            if 'messages' in response:
-                print 'test %s' % response
-                list_messages.extend(response['messages'])
-            while 'nextPageToken' in response:
-                page_token = response['nextPageToken'] #returns page_token as an integer
-                response = gmail_service.users().messages().list(userId='me', q=query, pageToken=page_token).execute() #returns list of messageid's and threadid's for a specific pagetoken
-                msgs = response.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
-                print msgs
+            results = gmail_service.users().messages().list(userId='me', q=query).execute()
+            # print results
+            msgs = results.get('messages', [])
+            headers_dict = {}
 
-                for msg in msgs:
-                    message_info = get_message_header_by_id(gmail_service, 'me', msg['id'])
-                    payload_headers = message_info['payload']['headers'] #This list of a dict will be used for my subj, from, datetime info 
-                    for dict_items in payload_headers:
+            Email.query.delete()
+
+            for msg in msgs:
+                message_id_headers = {} #this dict is used to add the msg id as the key to the message dict payload_headers
+                message_info = get_message_header_by_id(gmail_service, 'me', msg['id']) #msg ids and threadids
+                # print message_info
+                message_id = str(message_info['id'])
+                # print type(message_id)
+                # print message_id
+                header_dict = {} #This caused a bit of an issue due to it being originally placed on line 74
+                payload_headers = message_info['payload']['headers']#This list of a dict will be used for my subj, from, datetime info 
+                # print payload_headers
+                message_id_headers[message_id] = payload_headers
+                # print message_id_headers
+                for key, value in message_id_headers.items():
+                    for dict_items in value:
                         key = dict_items['name']
-                        print key #works
+                        # print key #works
                         value = dict_items['value']
-                        print value #works
-                        if key in ['Subject', 'From', 'Date']:
+                        # print value #works
+                        if key in ['Subject', 'From', 'Date']: #This is only grabbing 1 message instead of all messages
                             header_dict[key] = value
+                    # print header_dict
+                    for key in message_id_headers:
+                        # print key
+                        headers_dict[key] = header_dict
+                    # print headers_dict #WORKS! The key is my message id
+                    #Got this from Steve Peak on stackoverflow
+                    date_str = header_dict['Date']
+                    Date = timestring.Date(date_str)
+                    From = header_dict['From']
+                    Subject = header_dict['Subject']
+                    msg_id = key
+                    # print Date
+                    # print From
+                    # print Subject
+                    # print msg_id
+                    message = Email(email_id=msg_id, subject=Subject, sender_email=From, received_at=Date)
 
-                return render_template("inbox.html", 
-                                        header_dict=header_dict
-                                        )
+                    db.session.add(message)
+                db.session.commit()
+
+            return render_template("inbox.html", 
+                                    headers_dict=headers_dict,
+                                    )
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
@@ -101,8 +125,8 @@ def get_message_header_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
     return message
 
-@app.route('/handle-message')
-def get_msg_body():
+@app.route('/handle-message/<msg_id>')
+def get_msg_body(msg_id):
     if 'credentials' not in session:
         return redirect(url_for('oauth2callback'))
     credentials = client.OAuth2Credentials.from_json(session['credentials'])
@@ -114,17 +138,13 @@ def get_msg_body():
         query = 'is:inbox'
 
         # import pdb; pdb.set_trace() #Debugging
-        #Grabs a list of nested dictionary within another dictionary {dict:[{dict:key}]}
-        results = gmail_service.users().messages().list(userId='me').execute()
-        print results
-        msgs = results.get('messages', []) #Looks for the key messages and returns a list of dict otherwise, it returns an empty list
-        # print msgs
 
-        for msg in msgs[:1]:
-            message_info = get_message_body_by_id(gmail_service, 'me', msg['id'])
-        print message_info
+        message_info = get_message_body_by_id(gmail_service, 'me', msg_id)
+            # print message_info
         msg_body_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
+        print msg_body_str
         msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
+        
         #Got this from Jarret Hardie on stackoverflow for how to convert an instance into plain text
         for part in msg_body_inst.walk():
             if part.get_content_type() == 'text/plain':
@@ -140,11 +160,17 @@ def get_message_body_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='raw').execute()
     return message
 
+@app.route("/task")
+def create_task():
+    """Create new task"""
+
+    return render_template("tasks.html")
+
 @app.route("/search-task")
 def search_task():
     """Page with all tasks."""
 
-    return render_template("tasks.html")
+    return render_template("listoftasks.html")
   
 @app.route("/setting")
 def settings_page():
@@ -159,11 +185,11 @@ def signout():
     return redirect("/")
 
 if __name__ == "__main__":
-    import logging
-    logging.basicConfig(filename='debug.log',level=logging.DEBUG)
+    # import logging
+    # logging.basicConfig(filename='debug.log',level=logging.DEBUG)
     app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     # DebugToolbarExtension(app)
