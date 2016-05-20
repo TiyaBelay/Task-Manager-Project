@@ -55,7 +55,7 @@ during my second sprint where I will be using Angular. Currently, I'm just conce
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
 #My inbox Page - 
-![Screenshot of my inbox]https://github.com/TiyaBelay/Task-Manager-Project/blob/39038215ca394c105be1e3a7891954192d76dd17/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
+![Screenshot of my inbox](https://github.com/TiyaBelay/Task-Manager-Project/blob/39038215ca394c105be1e3a7891954192d76dd17/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
 
 #Body of message
 ![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/571204c0ba7db8e1505dd6c8110e3187b726080c/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png)
