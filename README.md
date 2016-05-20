@@ -61,7 +61,7 @@ the task, it routes to a page where the list of tasks will be living. I will be 
 ![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png)
 
 #Task 
-![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
+![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/de1205e7e5b753cc027b483d91434a2cae8a797e/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
 
 Day 9-10:
 Continue seeding my data and build tests to make sure all info that I have is being captured
