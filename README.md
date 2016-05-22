@@ -51,12 +51,18 @@ Completed working on linking the subject to the message body and storing some of
 message body. The message body is currently in a plain text format since it requires multi text parsing that I will be looking at
 later this week. When clicking on an email, the 'create task button' is available on the top right side of the page. Currently
 I've been rendering a page for the inbox, the body of the message, and the tasks. This will be changing into a 1-page browser
+during my second sprint where I will be using Angular. Currently, I've been rendering a page for the inbox, the body of the message, and the tasks. This will be changing into a 1-page browser
 during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
-My inbox Page - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png 
-Page with body of message when clicking on Subject link - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png 
-Page with task when click on create task - https://github.com/TiyaBelay/Task-Manager-Project/blob/master/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png
+#My inbox Page - 
+![Screenshot of my inbox](https://github.com/TiyaBelay/Task-Manager-Project/blob/39038215ca394c105be1e3a7891954192d76dd17/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
+
+#Body of message
+![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/571204c0ba7db8e1505dd6c8110e3187b726080c/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png)
+
+#Task 
+![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/de1205e7e5b753cc027b483d91434a2cae8a797e/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
 
 Day 9-10:
 Continue seeding my data and build tests to make sure all info that I have is being captured
