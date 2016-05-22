@@ -58,7 +58,7 @@ the task, it routes to a page where the list of tasks will be living. I will be 
 ![Screenshot of my inbox](https://github.com/TiyaBelay/Task-Manager-Project/blob/21b96d2b79aeccd5b8d1d5d019ce4b768b2c0ee7/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
 
 #Body of message
-![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/571204c0ba7db8e1505dd6c8110e3187b726080c/Screen%20Shot%202016-05-17%20at%205.17.26%20PM.png)
+![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/21b96d2b79aeccd5b8d1d5d019ce4b768b2c0ee7/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
 
 #Task 
 ![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/de1205e7e5b753cc027b483d91434a2cae8a797e/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
