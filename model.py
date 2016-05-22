@@ -25,13 +25,13 @@ class Email(db.Model):
     __tablename__ = "emails"
     email_id = db.Column(db.String(100), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
-    subject = db.Column(db.String(120), nullable=False)
+    subject = db.Column(db.String(200), nullable=False)
     sender_email = db.Column(db.String(80), nullable=False)
     sender_f_name = db.Column(db.String(30), nullable=True)
     sender_l_name = db.Column(db.String(30), nullable=True)
-    received_at = db.Column(db.DateTime, nullable=False)
+    received_at = db.Column(db.String(70), nullable=False)
     attachment_received = db.Column(db.Boolean, nullable=True)
-    body_content = db.Column(db.String(1000), nullable=True)
+    body_content = db.Column(db.String(10000), nullable=True)
 
     def __repr__(self):
         """Provide helpful representation when printed."""
@@ -43,18 +43,25 @@ class Task(db.Model):
 
     __tablename__ = "tasks"
     task_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email_id = db.Column(db.Integer, db.ForeignKey('emails.email_id'), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    task_name = db.Column(db.String(20), nullable=False)
-    task_created_at = db.Column(db.DateTime, nullable=False)
+    email_id = db.Column(db.String, db.ForeignKey('emails.email_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    task_name = db.Column(db.String(200), nullable=False, unique=True)
+    task_created_at = db.Column(db.DateTime, nullable=True)
     due_date = db.Column(db.DateTime, nullable=False)
-    task_completed = db.Column(db.Boolean, nullable=False)
+    task_completed = db.Column(db.Boolean, nullable=True)
 
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return "<Task task_id=%s task_name=%s task_created_at=%s task_completed=%s>" % (self.task_id, self.task_name, self.task_created_at, self.task_completed)
+
+    user = db.relationship("User", 
+                            backref=db.backref("tasks", order_by=task_id))
+
+    email = db.relationship("Email", 
+                            backref=db.backref("tasks", order_by=task_id))
+
 
 class Checklist(db.Model):
     """Checklist information"""

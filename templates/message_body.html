@@ -2,14 +2,12 @@
 <html>
 <head>
     <title>Message</title>
+
 </head>
 <body>
     <p align="right">
-    <a href="/task" id='create-task' type="button">Create a task</a>
+    <a href="/task/{{ msg_id }}" id='create-task' type="button">Create a task</a>
     </p>
-    {{ message }}
-
-<!-- <script src="http://code.jquery.com/jquery.js"></script>
-<script src="/static/js/message_body.js"></script> -->
+    {{ soup }}
 </body>
 </html>

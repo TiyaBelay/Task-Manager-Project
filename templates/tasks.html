@@ -1,24 +1,35 @@
 <!doctype html>
 <html>
 <head>
+    <link rel="stylesheet" href="/static/css/tasks.css">
+    <script src="/static/js/task.js"></script>
     <title>Task</title>
 </head>
 <body> 
-    <div id="newtask">
-        <form action="#" id="task" method="POST">
-            <h2>New Task</h2>
-            <input type="text" size="100" name="entertask" value="Enter Task">
+     <!-- Show flashed messages -->
+<!--   {% with messages = get_flashed_messages() %}
+      {% for message in messages %}
+          {{ message }}
+      {% endfor %}
+  {% endwith %}
+   -->
+    <form action="/search-task/{{ msg_id }}" id="task">
+        <label>
+            New Task
             <br>
+            <textarea type="text" size="100" name="entertask" value="Enter Task" required='required' ></textarea>
+        </label>
+        <label>
+            Due Date
+            <input type="date" name="duedate" required='required' >
+        </label>
+        <label>
             <input type="checkbox" name="collab" value="Share"> Share this task
-        </form>
-    </div>
-    <span style="display:inline;">
-    <form action="/search-task">
-    <button id='submit'>Submit</button>
+        </label>
+        <label>
+            <button id='submit'>Submit</button>
+            <button id='cancel'><a href="/inbox">Cancel</button>
+        </label>
     </form>
-    <form action="/inbox">
-    <button id='cancel'>Cancel</button>
-    </form>
-    </span>
 </body>
 </html>

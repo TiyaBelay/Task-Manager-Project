@@ -4,6 +4,21 @@
     <title></title>
 </head>
 <body>
+    <table width="1200">
+    <tr>
+        <th>Task Name</th>
+        <th>Start Date</th>
+        <th>Due Date</th>
+        <th>Completed</th>
 
+    {% for i in tasks %}
+    <tr>
+        <td> {{ i.task_name }} </td>
+        <td> {{ i.task_created_at }} </td>
+        <td> {{ i.due_date }} </td>
+        <td> {{ i.task_completed }} </td>
+    </tr>
+    {% endfor %}
+    </table>
 </body>
 </html>

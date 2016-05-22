@@ -2,20 +2,13 @@
 <html>
 <head>
     <link rel="stylesheet" href="/static/css/inbox.css">
+    <script src="/static/js/inbox.js"></script>
     <title>Inbox</title>
 
 </head>
 <body>
     <div id="header">
-    <p align="right"><a href="#" onclick="signOut();">Sign out</a></p>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
+    <p align="right"><a href="/signout" onclick="signOut();">Sign out</a></p>
     </div>
 
     <div id="sidebar">
@@ -24,7 +17,7 @@
     </div>
 
     <div id="content">
-    <table width="1300">
+    <table width="800">
         <tr>
             <th>From</th>
             <th>Subject</th>
@@ -33,7 +26,7 @@
         {% for key, message in headers_dict.items() %}
         </tr>
             <td> {{ message['From'] }}</td>
-            <td><div class="span4"><a href="/handle-message/{{ key }}">{{ message['Subject'] }} </a></div></td>
+            <td><div class="span4"><a href="/handle-message/{{ key }}" onclick="openMessage();">{{ message['Subject'] }} </a></div></td>
             <td> {{ message['Date'] }}</td>
         </tr>
         {% endfor %}
