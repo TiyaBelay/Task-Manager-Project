@@ -51,7 +51,6 @@ Completed working on linking the subject to the message body and storing some of
 message body. The message body is currently in a plain text format since it requires multi text parsing that I will be looking at
 later this week. When clicking on an email, the 'create task button' is available on the top right side of the page. Currently
 I've been rendering a page for the inbox, the body of the message, and the tasks. This will be changing into a 1-page browser
-during my second sprint where I will be using Angular. Currently, I've been rendering a page for the inbox, the body of the message, and the tasks. This will be changing into a 1-page browser
 during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
