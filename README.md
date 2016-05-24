@@ -63,9 +63,14 @@ the task, it routes to a page where the list of tasks will be living. I will be 
 #Task 
 ![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/de1205e7e5b753cc027b483d91434a2cae8a797e/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
 
-Day 9-10:
-Continue seeding my data and build tests to make sure all info that I have is being captured
-Implement Slack API for the checkbox feature to work (currently there's just a placeholder)
+#Second sprint:
+
+Day 1-2:
+Cleaning up my web pages and my task list page. Also integrated with Slack using their
+inoming webhook without using their OAuth. Posting notifications is successful when a task is created. Need to continue working on notification to post with the title and when the task is completed. 
+
+![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15520759/c70c27ee-21bc-11e6-9358-ef18171c15f8.png)
+
 
 
 
