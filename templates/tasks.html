@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="/static/css/tasks.css">
-    <script src="/static/js/task.js"></script>
+    <script src="https://code.jquery.com/jquery.js"></script>
     <title>Task</title>
 </head>
 <body> 
@@ -13,7 +13,7 @@
       {% endfor %}
   {% endwith %}
    -->
-    <form action="/search-task/{{ msg_id }}" id="task">
+    <form action="/search-task/{{ msg_id }}" method = 'POST' id="task">
         <label>
             New Task
             <br>
@@ -24,12 +24,13 @@
             <input type="date" name="duedate" required='required' >
         </label>
         <label>
-            <input type="checkbox" name="collab" value="Share"> Share this task
+            <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
         </label>
         <label>
             <button id='submit'>Submit</button>
             <button id='cancel'><a href="/inbox">Cancel</button>
         </label>
     </form>
+    <script src="/static/js/task.js"></script>
 </body>
 </html>

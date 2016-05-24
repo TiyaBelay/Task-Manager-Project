@@ -36,7 +36,7 @@ class Email(db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return "<Email email_id=%s user_id=%s subject=%s sender_email=%s received_at=%s>" % (self.email_id, user_id, self.subject, self.sender_email, self.received_at)
+        return "<Email email_id=%s user_id=%s subject=%s sender_email=%s received_at=%s>" % (self.email_id, self.user_id, self.subject, self.sender_email, self.received_at)
 
 class Task(db.Model):
     """Task details"""
@@ -137,7 +137,6 @@ if __name__ == '__main__':
     from server import app
     import os
 
-    os.system("dropdb taskmanager")
     os.system("createdb taskmanager")
 
     connect_to_db(app)

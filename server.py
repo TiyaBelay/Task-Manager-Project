@@ -247,7 +247,7 @@ def get_msg_body(msg_id):
                 # print message
                 soup = BeautifulSoup(message)
                 # return soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
-                
+                # print soup.body
             #     message_body = Email(email_id=msg_id, body_content=message)
 
             #     db.session.add(message_body)
@@ -273,34 +273,37 @@ def create_task(msg_id):
                             msg_id=msg_id,
                             )
 
-@app.route('/search-task/<msg_id>')
+@app.route('/search-task/<msg_id>', methods=['POST'])
 def search_task(msg_id):
     """Show list of all tasks."""
-
-    # Email.query.delete()
     
-    task = request.args.get('entertask')
-    duedate = request.args.get('duedate')
+    task = request.form.get('entertask')
+    duedate = request.form.get('duedate')
 
     task = Task(email_id= msg_id, task_name=task, due_date=duedate)
     # print "NOT ADDED TO DB"
     db.session.add(task)   
-    # try:
+
     db.session.commit()
-        # print "ADDED TO DB"
+    # print "ADDED TO DB"
 
     tasks = Task.query.all()
-    
-        # print "Get through!!"
+    #Get a list of tasks and render to list of tasks html page
 
-    # except IntegrityError, e:
-    #     # print "IT GOT THROUGH!!"
-    #     flash('Task already created!')
-    #     db.session.rollback()
+    # if task in tasks.task_name:
+        # session['']
 
     return render_template("listoftasks.html",
                             tasks=tasks,
                             msg_id=msg_id)
+
+@app.route("/search-task")
+def list_of_tasks():
+
+    tasks = Task.query.all()
+
+    return render_template("listoftasks.html",
+                            tasks=tasks)
 
 @app.route("/signout")
 def signout():
