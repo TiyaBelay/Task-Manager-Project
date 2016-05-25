@@ -6,11 +6,10 @@
 
 var SLACK_URL= "https://hooks.slack.com/services/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";
 
+
 var newSlackMessage = 
-{
-    "text": "This task has been created",
-    "title": "task"
-};
+
+    "This task has been created: \n";
 
 // var completedSlackMessage = 
 // payload={
@@ -20,12 +19,13 @@ var newSlackMessage =
 // };
 
 $("#submit").click(function() {
+    var taskName = document.getElementById("taskName").value;
     // console.log("function called");
     if($("#slackchannel").is(":checked")) {
         // console.log("went through");
         $.post(
             SLACK_URL,
-            JSON.stringify(newSlackMessage),
+            JSON.stringify({text: newSlackMessage + taskName}),
             function() {
                 alert ("Thanks. Notified your slack team!");
             }
@@ -35,3 +35,7 @@ $("#submit").click(function() {
     }
 });
 
+$("#submit").click(function() {
+    var today = new Date();
+    alert("this was submitted on " + today)
+})

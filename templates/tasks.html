@@ -17,7 +17,7 @@
         <label>
             New Task
             <br>
-            <textarea type="text" size="100" name="entertask" value="Enter Task" required='required' ></textarea>
+            <textarea type="text" size="100" id="taskName" name="entertask" value="Enter Task" required='required' ></textarea>
         </label>
         <label>
             Due Date
@@ -25,6 +25,9 @@
         </label>
         <label>
             <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
+        </label>
+        <label>
+          <input type='hidden' name='datetimestamp' value="today">
         </label>
         <label>
             <button id='submit'>Submit</button>
