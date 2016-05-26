@@ -39,8 +39,7 @@ def oauth2callback():
     flow = client.flow_from_clientsecrets(
                     'client_secret.json',
                     scope='https://www.googleapis.com/auth/gmail.readonly',
-                    redirect_uri=url_for('oauth2callback', _external=True),
-                    )
+                    redirect_uri=url_for('oauth2callback', _external=True))
     # print flow
     if 'code' not in request.args:#This will redirect the user to Google's OAuth 2.0 server and based of the response of the user will redirect accordingly
         auth_uri = flow.step1_get_authorize_url()
@@ -124,8 +123,7 @@ def inbox():
                         db.session.commit()
 
             return render_template("inbox.html", 
-                                    headers_dict=headers_dict,
-                                    )
+                                    headers_dict=headers_dict)
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
@@ -171,8 +169,7 @@ def get_msg_body(msg_id):
 
         return render_template("message_body.html",
                                 soup=g,
-                                msg_id=msg_id,
-                                )
+                                msg_id=msg_id)
 
 def get_message_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
@@ -182,11 +179,8 @@ def get_message_by_id(service, user_id, msg_id):
 def create_task(msg_id):
     """Create new task"""
 
-    # import pdb; pdb.set_trace() #Debugging
-
     return render_template("tasks.html",
-                            msg_id=msg_id,
-                            )
+                            msg_id=msg_id)
 
 @app.route('/task-list/<msg_id>', methods=['POST'])
 def search_task(msg_id):
@@ -195,8 +189,6 @@ def search_task(msg_id):
     task = request.form.get('entertask')
     duedate = request.form.get('duedate')
     taskcomp = request.form.get('taskcomp')
-
-    # import pdb; pdb.set_trace() #Debugging
 
     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
 
@@ -215,10 +207,21 @@ def list_of_tasks():
     return render_template("listoftasks.html",
                             tasks=tasks)
 
+#Got help from this doc in regards to SQLAlchemy-Searchable
+#https://sqlalchemy-searchable.readthedocs.io/en/latest/search_query_parser.html
 @app.route("/search-tasks")
 def seach_tasks():
     """Search for tasks"""
 
+    # import pdb; pdb.set_trace() #Debugging
+
+    task_search = request.args.get("q") #this correctly prints the value of my search
+    
+    taskdb = db.session.query(Task) #this is querying my task db
+    results = search(taskdb, task_search) #the search query parser should look for the results of task_search against my db query
+
+    return render_template("search_tasks.html",
+                            results=results)
 
 @app.route("/signout")
 def signout():
@@ -226,13 +229,11 @@ def signout():
 
     session.clear()
 
-    # flash("You are now logged out!")
+    flash("You are now logged out!")
 
     return redirect("/")
 
 if __name__ == "__main__":
-    # import logging
-    # logging.basicConfig(filename='debug.log',level=logging.DEBUG)
     app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
     connect_to_db(app)

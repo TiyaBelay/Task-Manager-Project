@@ -14,6 +14,7 @@
 
 <div class="container">
   <table class="table">
+    <h1>Search Results</h1>
     <thead>
       <tr>
         <th>Task Name</th>
@@ -21,12 +22,12 @@
         <th>Due Date</th>
         <th>Task Completed</th>
 
-        {% for i in tasks %}
+        {% for i in results %}
       <tr>
-        <td contenteditable='true'> {{ i.task_name }} </td>
+        <td> {{ i.task_name }} </td>
         <td> {{ i.task_created_at }} </td>
         <td> {{ i.due_date }} </td>
-        <td contenteditable='true'> {{ i.task_completed }} </td>
+        <td> {{ i.task_completed }} </td>
       </tr>
         {% endfor %}
     </tbody>

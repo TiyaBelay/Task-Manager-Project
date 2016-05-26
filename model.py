@@ -145,11 +145,8 @@ def connect_to_db(app):
 if __name__ == '__main__':
 
     from server import app
-    import os
-
-    os.system("createdb taskmanager")
-
     connect_to_db(app)
     print "Connected to DB."
 
+    db.configure_mappers()
     db.create_all()
