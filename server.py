@@ -219,7 +219,6 @@ def list_of_tasks():
 def seach_tasks():
     """Search for tasks"""
 
-    search = request.args.get()
 
 @app.route("/signout")
 def signout():

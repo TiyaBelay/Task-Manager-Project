@@ -2,29 +2,16 @@
 
 var SLACK_URL= "https://hooks.slack.com/services/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";
 
-var newSlackMessage = 
-
-    "This task has been created: \n";
-
-// var completedSlackMessage = 
-// payload={
-//     "text": "This task has been completed",
-//     "title": task,
-//     "time": "It took " x times "to complete this task"
-// };
+var newSlackMessage = "This task has been created: \n";
 
 $("#submit").click(function() {
     var taskName = document.getElementById("taskName").value;
     if($("#slackchannel").is(":checked")) {
         $.post(
             SLACK_URL,
-            JSON.stringify({text: newSlackMessage + taskName}),
-            function() {
-                alert ("Thanks. Notified your slack team!");
-            }
+            JSON.stringify({text: newSlackMessage + taskName})
         );
-    } else {
-        return None;
-    }
+        alert("Thanks. Notified your slack team!");
+    };
 });
 
