@@ -17,19 +17,15 @@ from flask.json import jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
 
+#Import search function to query from db
+from sqlalchemy_searchable import search
+
 app = Flask(__name__) #create a flask application
 
 app.secret_key = os.environ["FLASK_APP_KEY"]
 
 #Added this to raise an error when an undefined variable is used in Jinja
 app.jinja_env.undefined = StrictUndefined 
-
-#created an object used to operate OAuth 2.0 operations
-# def client_object():
-#     flow = client.flow_from_clientsecrets('client_secret.json',
-#                     scope='https://www.googleapis.com/auth/gmail.readonly',
-#                     redirect_uri=url_for('oauth2callback', _external=True),
-#                     )
 
 @app.route("/")
 def login():
@@ -39,8 +35,6 @@ def login():
 
 @app.route("/oauth2callback")
 def oauth2callback():
-    # import pdb; pdb.set_trace() #Debugging
-
     #created an object used to operate OAuth 2.0 operations
     flow = client.flow_from_clientsecrets(
                     'client_secret.json',
@@ -54,54 +48,47 @@ def oauth2callback():
     else:
         auth_code = request.args.get('code')
         credentials = flow.step2_exchange(auth_code) #once the authorization code is recieved from the user, it will be exchanged for an access token using step2_exchange
-        # http_auth = credentials.authorize(httplib2.Http())
-        # gmail_service = discovery.build('gmail', 'v1', http_auth)
         session['credentials'] = credentials.to_json()
         return redirect(url_for('inbox'))
 
+def get_credentials():
+    if 'credentials' not in session:
+        return False
+    credentials = client.OAuth2Credentials.from_json(session['credentials'])
+    if credentials.access_token_expired:
+        return False
+    return credentials
+
+def get_api(credentials):
+    http_auth = credentials.authorize(httplib2.Http())
+    gmail_service = discovery.build('gmail', 'v1', http_auth)
+
+    return gmail_service
 
 @app.route('/inbox')
 def inbox():
-    if 'credentials' not in session:
-        return redirect(url_for('oauth2callback'))
-    credentials = client.OAuth2Credentials.from_json(session['credentials'])
-    if credentials.access_token_expired:
-        return redirect(url_for('oauth2callback'))
-    else:
-        http_auth = credentials.authorize(httplib2.Http())
-        gmail_service = discovery.build('gmail', 'v1', http_auth)
-        query = 'is:inbox'
-        """List all Messages of the user's inbox matching the query.
+        """List Messages of the user's inbox matching the query."""
 
-        Args:
-        service: Authorized Gmail API service instance.
-        user_id: User's email address. The special value "me"
-        can be used to indicate the authenticated user.
-        query: String used to filter messages returned.
-        Eg.- 'from:user@some_domain.com' for Messages from a particular sender.
-
-        Returns:
-        List of Messages that match the criteria of the query. Note that the
-        returned list contains Message IDs, you must use get with the
-        appropriate ID to get the details of a Message.
-        """
         # import pdb; pdb.set_trace() #Debugging
 
-        #Measure optimization when refractoring and seeing how long it takes to run the inbox
-        #decrease storage
+        credentials = get_credentials()
+        if not credentials:
+            return redirect(url_for('oauth2callback'))
+
+        gmail_service = get_api(credentials)
+        query = 'is:inbox'
+
         try:
             results = gmail_service.users().messages().list(userId='me', q=query).execute()
-            # print results
             msgs = results.get('messages', [])
             headers_dict = {}
 
-            # Email.query.delete()
-
             for msg in msgs:
                 message_id_headers = {} #this dict is used to add the msg id as the key to the message dict payload_headers
-                message_info = get_message_header_by_id(gmail_service, 'me', msg['id']) #msg ids and threadids
+                message_info = get_message_by_id(gmail_service, 'me', msg['id']) #msg ids and threadids
                 # print message_info
                 message_id = str(message_info['id'])
+
                 # print type(message_id)
                 # print message_id
                 header_dict = {} #This caused a bit of an issue due to it being originally placed on line 74
@@ -128,14 +115,13 @@ def inbox():
                     From = header_dict['From']
                     Subject = header_dict['Subject']
                     msg_id = key
-                    # print Date
-                    # print From
-                    # print Subject
-                    # print msg_id
-                    message = Email(email_id=msg_id, subject=Subject, sender_email=From, received_at=Date)
 
-                    db.session.add(message)
-                db.session.commit()
+                    emailpresentindb = db.session.query(Email).filter(Email.email_id == msg_id).first()
+
+                    if emailpresentindb is None:
+                        message = Email(email_id=msg_id, subject=Subject, sender_email=From, received_at=Date)
+                        db.session.add(message)
+                        db.session.commit()
 
             return render_template("inbox.html", 
                                     headers_dict=headers_dict,
@@ -143,120 +129,49 @@ def inbox():
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
+@app.route('/inbox')
+def list_of_messages():
 
-# @app.route('/inbox')
-# def inbox():
-#     if 'credentials' not in session:
-#         return redirect(url_for('oauth2callback'))
-#     credentials = client.OAuth2Credentials.from_json(session['credentials'])
-#     if credentials.access_token_expired:
-#         return redirect(url_for('oauth2callback'))
-#     else:
-#         http_auth = credentials.authorize(httplib2.Http())
-#         gmail_service = discovery.build('gmail', 'v1', http_auth)
-#         query = 'is:inbox'
-#         """List all Messages of the user's inbox matching the query.
+    headers_dict = Email.query.all()
 
-#         Args:
-#         service: Authorized Gmail API service instance.
-#         user_id: User's email address. The special value "me"
-#         can be used to indicate the authenticated user.
-#         query: String used to filter messages returned.
-#         Eg.- 'from:user@some_domain.com' for Messages from a particular sender.
-
-#         Returns:
-#         List of Messages that match the criteria of the query. Note that the
-#         returned list contains Message IDs.
-#         """
-#         # import pdb; pdb.set_trace() #Debugging
-
-#         #Measure optimization when refractoring and seeing how long it takes to run the inbox
-#         #decrease storage
-
-#         Email.query.delete()
-
-#         try:
-#             results = gmail_service.users().messages().list(userId='me', q=query).execute()
-#             # print results
-#             msgs = results.get('messages', [])
-#             print msgs
-
-#             for msg in msgs:
-#                 msg_id = msg['id']
-#                 # print msg_id
-#                 message_info = get_message_by_id(gmail_service, 'me', msg['id'])
-#                 # print message_info
-#                 msg_body_str = base64.urlsafe_b64decode(message_info['raw'].encode('ASCII'))
-#                 # print msg_body_str
-#                 msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
-#                 # print msg_body_inst
-#                 Subject = msg_body_inst['Subject']
-#                 # print Subject
-#                 Date = str(msg_body_inst['Date'])
-#                 # print Date
-#                 From = msg_body_inst['From']
-#                 # print From
-            
-#                 message = Email(email_id=msg['id'], subject=Subject, sender_email=From, received_at=Date)
-
-#                 db.session.add(message)
-#             db.session.commit()
-
-#             return render_template("inbox.html", 
-#                                     Subject=Subject,
-#                                     Date=Date,
-#                                     From=From,
-#                                     msg_id=msg_id)
-#         except errors.HttpError, error:
-#             print 'An error occurred: %s' % error
-
-
-
-def get_message_header_by_id(service, user_id, msg_id):
-    message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
-    return message
+    return render_template("inbox.html",
+                            headers_dict=headers_dict)
 
 @app.route('/handle-message/<msg_id>')
 def get_msg_body(msg_id):
-    if 'credentials' not in session:
-        return redirect(url_for('oauth2callback'))
-    credentials = client.OAuth2Credentials.from_json(session['credentials'])
-    if credentials.access_token_expired:
-        return redirect(url_for('oauth2callback'))
-    else:
-        http_auth = credentials.authorize(httplib2.Http())
-        gmail_service = discovery.build('gmail', 'v1', http_auth)
+        """List body of message."""
+
+        credentials = get_credentials()
+        if not credentials:
+            return redirect(url_for('oauth2callback'))
+
+        gmail_service = get_api(credentials)
         query = 'is:inbox'
 
-        # import pdb; pdb.set_trace() #Debugging
-
-        # Email.query.delete()
 
         message_info = get_message_by_id(gmail_service, 'me', msg_id)
-        # print message_info
 
         msg_body_str = base64.urlsafe_b64decode(message_info['payload']['parts'][1]['body']['data'].encode('ASCII'))
-        # print msg_body_str
+
         msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
-        # print msg_body_inst
 
         for part in msg_body_inst.walk(): #this walk method from the email lib is a generator
-            # print part
             if part.get_content_type() == 'text/html' or part.get_content_type() == 'text/plain':
                 message = part.get_payload()
-                # print message
-                soup = BeautifulSoup(message)
-                # return soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
-                # print soup.body
+
+                # import pdb; pdb.set_trace() #Debugging
+
+                soup = BeautifulSoup(message, "html5lib")
+                g = soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
+                # g = str(g)
             #     message_body = Email(email_id=msg_id, body_content=message)
 
             #     db.session.add(message_body)
             # db.session.commit()
 
         return render_template("message_body.html",
-                                soup=soup,
+                                soup=g,
                                 msg_id=msg_id,
-                                # messagehtml=messagehtml
                                 )
 
 def get_message_by_id(service, user_id, msg_id):
@@ -273,37 +188,38 @@ def create_task(msg_id):
                             msg_id=msg_id,
                             )
 
-@app.route('/search-task/<msg_id>', methods=['POST'])
+@app.route('/task-list/<msg_id>', methods=['POST'])
 def search_task(msg_id):
     """Show list of all tasks."""
     
     task = request.form.get('entertask')
     duedate = request.form.get('duedate')
+    taskcomp = request.form.get('taskcomp')
 
-    task = Task(email_id= msg_id, task_name=task, due_date=duedate)
-    # print "NOT ADDED TO DB"
-    db.session.add(task)   
+    # import pdb; pdb.set_trace() #Debugging
 
-    db.session.commit()
-    # print "ADDED TO DB"
+    taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
 
-    tasks = Task.query.all()
-    #Get a list of tasks and render to list of tasks html page
+    if taskpresentindb is None:
+        task = Task(email_id= msg_id, task_name=task, due_date=duedate, task_completed=taskcomp)
+        db.session.add(task)
+        db.session.commit()
 
-    # if task in tasks.task_name:
-        # session['']
+    return redirect("/task-list")
 
-    return render_template("listoftasks.html",
-                            tasks=tasks,
-                            msg_id=msg_id)
-
-@app.route("/search-task")
+@app.route("/task-list")
 def list_of_tasks():
 
     tasks = Task.query.all()
 
     return render_template("listoftasks.html",
                             tasks=tasks)
+
+@app.route("/search-tasks")
+def seach_tasks():
+    """Search for tasks"""
+
+    search = request.args.get()
 
 @app.route("/signout")
 def signout():
@@ -323,6 +239,6 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
-    DebugToolbarExtension(app)
+    # DebugToolbarExtension(app)
     
     app.run()

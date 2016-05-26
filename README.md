@@ -55,13 +55,10 @@ during my second sprint where I will be using Angular. Currently, I'm just conce
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
 #My inbox Page - 
-![Screenshot of my inbox](https://github.com/TiyaBelay/Task-Manager-Project/blob/21b96d2b79aeccd5b8d1d5d019ce4b768b2c0ee7/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
-
-#Body of message
-![screenshot of body of message](https://github.com/TiyaBelay/Task-Manager-Project/blob/21b96d2b79aeccd5b8d1d5d019ce4b768b2c0ee7/Screen%20Shot%202016-05-17%20at%205.16.45%20PM.png)
+![Screenshot of my inbox](https://cloud.githubusercontent.com/assets/18127030/15580939/5bbdd24e-231f-11e6-8aac-eb412027254f.png)
 
 #Task 
-![Screenshot of task page](https://github.com/TiyaBelay/Task-Manager-Project/blob/f8aea23720ba5212f5cadc3ce4e90b65b06d9fe6/Screen%20Shot%202016-05-17%20at%205.17.46%20PM.png)
+![Screenshot of task page](https://cloud.githubusercontent.com/assets/18127030/15580988/8c6b6d70-231f-11e6-829f-1ea2b8d4bb8d.png)
 
 #Second sprint:
 
@@ -71,6 +68,9 @@ inoming webhook without using their OAuth. Posting notifications is successful w
 
 ![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15520759/c70c27ee-21bc-11e6-9358-ef18171c15f8.png)
 
+Day 3-4:
+Refractored code on my server.py file and worked on search engine for task
+![Screenshot of list of tasks](https://cloud.githubusercontent.com/assets/18127030/15579175/5769455e-2318-11e6-87f4-f84d7635d639.png)
 
 
 

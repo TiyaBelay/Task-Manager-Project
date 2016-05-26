@@ -1,24 +1,35 @@
-<!doctype html>
-<html>
+{% extends 'base.html' %}
+{% block content %}
 <head>
-    <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
-    <table width="1200">
-    <tr>
+
+<form action="/search">
+    <input id="searchbox" type="text" name="tasksearch">
+    <input type="submit" value="Search">
+</form>
+
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
         <th>Task Name</th>
         <th>Start Date</th>
         <th>Due Date</th>
-        <th>Completed</th>
+        <th>Task Completed</th>
 
-    {% for i in tasks %}
-    <tr>
+        {% for i in tasks %}
+      <tr>
         <td> {{ i.task_name }} </td>
         <td> {{ i.task_created_at }} </td>
         <td> {{ i.due_date }} </td>
         <td> {{ i.task_completed }} </td>
-    </tr>
-    {% endfor %}
-    </table>
-</body>
-</html>
+      </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+  {% endblock %}
+</div>

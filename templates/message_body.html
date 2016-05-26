@@ -1,13 +1,7 @@
-<!doctype html>
-<html>
-<head>
-    <title>Message</title>
-
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
     <p align="right">
     <a href="/task/{{ msg_id }}" id='create-task' type="button">Create a task</a>
     </p>
-    {{ soup }}
-</body>
-</html>
+        {{ soup }}
+{% endblock %}

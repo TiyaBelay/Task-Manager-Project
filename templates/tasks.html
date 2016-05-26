@@ -1,39 +1,38 @@
-<!doctype html>
-<html>
+{% extends 'base.html' %}
+{% block content %}
 <head>
     <link rel="stylesheet" href="/static/css/tasks.css">
     <script src="https://code.jquery.com/jquery.js"></script>
     <title>Task</title>
 </head>
-<body> 
-     <!-- Show flashed messages -->
-<!--   {% with messages = get_flashed_messages() %}
-      {% for message in messages %}
-          {{ message }}
-      {% endfor %}
-  {% endwith %}
-   -->
-    <form action="/search-task/{{ msg_id }}" method = 'POST' id="task">
+    <form action="/task-list/{{ msg_id }}" method = 'POST' id="task">
         <label>
             New Task
             <br>
             <textarea type="text" size="100" id="taskName" name="entertask" value="Enter Task" required='required' ></textarea>
         </label>
+        <br>
         <label>
             Due Date
             <input type="date" name="duedate" required='required' >
         </label>
+        <br>
         <label>
             <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
         </label>
+        <br>
         <label>
-          <input type='hidden' name='datetimestamp' value="today">
+          <b>Completed Task</b>
+          <input type="radio" name="taskcomp" value="yes"> Yes </input>
+          <input type="radio" name="taskcomp" value="no"> No </input>
+        </label>
+        <br>
+        <label>
+            <input type="submit" id="submit" value='Submit'>
         </label>
         <label>
-            <button id='submit'>Submit</button>
-            <button id='cancel'><a href="/inbox">Cancel</button>
+            <button id='cancel' onclick="/inbox">Cancel</button>
         </label>
     </form>
     <script src="/static/js/task.js"></script>
-</body>
-</html>
+{% endblock %}

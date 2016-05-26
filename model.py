@@ -1,6 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
+import datetime
+
+#SQLAlchemy searchable used to search for tasks
+from sqlalchemy_searchable import make_searchable
+from sqlalchemy_utils.types import TSVectorType
 
 db = SQLAlchemy()
+
+make_searchable()
 
 ##############################################################################
 # Model definitions
@@ -38,6 +45,7 @@ class Email(db.Model):
 
         return "<Email email_id=%s user_id=%s subject=%s sender_email=%s received_at=%s>" % (self.email_id, self.user_id, self.subject, self.sender_email, self.received_at)
 
+
 class Task(db.Model):
     """Task details"""
 
@@ -46,9 +54,11 @@ class Task(db.Model):
     email_id = db.Column(db.String, db.ForeignKey('emails.email_id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     task_name = db.Column(db.String(200), nullable=False, unique=True)
-    task_created_at = db.Column(db.DateTime, nullable=True)
-    due_date = db.Column(db.DateTime, nullable=False)
+    task_created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    due_date = db.Column(db.DateTime, nullable=True)
     task_completed = db.Column(db.Boolean, nullable=True)
+    #Since I want the task_name to be searchable, it got defined within the search vector
+    search_vector = db.Column(TSVectorType('task_name'))
 
 
     def __repr__(self):

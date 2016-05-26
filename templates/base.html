@@ -1,23 +1,25 @@
 <!doctype html>
 <html itemscope itemtype="http://schema.org/Article">
 <head>
-    <link rel="stylesheet"
-          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css"/>
-    <link rel="stylesheet" href="/static/css/site.css"/>
+    <link rel="stylesheet" href="/static/css/inbox.css">
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-static-top">
-    <div class="container">
-
-        <div class="navbar-header">
-            <a class="navbar-brand">Task Manager</a>
-        </div>
-    </div>
+    <div id="header">
+    <p align="right"><a href="/signout" onclick="signOut();">Sign out</a></p>
     </div>
 
-    {% block body %} 
-        put your body here 
-    {% endblock %}
+    <div id="sidebar">
+    <h2>Folders</h2>
+    <a href="/inbox">My Inbox</a>
+    <br>
+    <a href="/task-list">My Tasks</a>
+    <br>
+    <a href="/task-list">Search</a>
+    </div>
 
+    <div id="content">
+    {% block content %} put your content here {% endblock %}
+
+    </div>
 </body>
 </html>
