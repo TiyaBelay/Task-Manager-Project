@@ -66,11 +66,12 @@ Day 1-2:
 Cleaning up my web pages and my task list page. Also integrated with Slack using their
 inoming webhook without using their OAuth. Posting notifications is successful when a task is created. Need to continue working on notification to post with the title and when the task is completed. 
 
-![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15520759/c70c27ee-21bc-11e6-9358-ef18171c15f8.png)
+![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15591894/aea7997e-2354-11e6-9af7-8cb51d7b107d.png)
 
 Day 3-4:
-Refractored code on my server.py file and worked on search engine for task
-![Screenshot of list of tasks](https://cloud.githubusercontent.com/assets/18127030/15579175/5769455e-2318-11e6-87f4-f84d7635d639.png)
+Refractored code on my server.py file and completed search engine for tasks
+![Screenshot of list of tasks](https://cloud.githubusercontent.com/assets/18127030/15591906/c3aa2274-2354-11e6-874e-174f50295aaa.png)
+![Screenshot of search query](https://cloud.githubusercontent.com/assets/18127030/15591968/0cd5e0c8-2355-11e6-9dc6-54070946bbd9.png)
 
 
 
