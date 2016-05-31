@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/inbox.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <title>Inbox</title>
+
+</head>
+<body>
+    <!-- got this from http://bootsnipp.com/snippets/featured/responsive-sidebar-menu -->
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1">
+            </button>
+            <a class="navbar-brand">Task that</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li ><a href="/inbox">Messages <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+                <li><a href="/task-list">My Tasks <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-tasks"></span></a></li>
+                <li ><a href="/task-list">Search <span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-search"></span></a></li>
+            </ul>
+            <p align="right"><a href="/signout" onclick="signOut();">Sign out<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-log-out"></span></a></p>
+        </div>
+    </div>
+</nav>
+    <div class="main">
+    </div>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Date</th>
+
+        {% for key, message in headers_dict.items() %}
+          <tr id="{{ key }}" class="messagebody">
+            <td> {{ message['From'] }}</td>
+            <td> {{ message['Subject'] }} </td>
+            <td> {{ message['Date'] }}</td>
+          </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div id='create-task' style="display:none;" align="right"><button>Create a task</button></div>
+    <div id="messageoutput"></div>
+
+    <script src="/static/js/inbox.js"></script>
+</body>
+</div>
+</html>
