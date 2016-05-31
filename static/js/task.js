@@ -1,3 +1,4 @@
+// "use strict"; to capture undeclared variables
 "use strict";
 
 var SLACK_URL= "https://hooks.slack.com/services/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";

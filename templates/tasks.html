@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/css/tasks.css">
     <script src="https://code.jquery.com/jquery.js"></script>
     <title>Task</title>
@@ -19,12 +23,6 @@
         <br>
         <label>
             <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
-        </label>
-        <br>
-        <label>
-          <b>Completed Task</b>
-          <input type="radio" name="taskcomp" value="yes"> Yes </input>
-          <input type="radio" name="taskcomp" value="no"> No </input>
         </label>
         <br>
         <label>

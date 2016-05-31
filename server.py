@@ -122,21 +122,13 @@ def inbox():
                         db.session.add(message)
                         db.session.commit()
 
-            return render_template("inbox.html", 
+            return render_template("index.html", 
                                     headers_dict=headers_dict)
         except errors.HttpError, error:
             print 'An error occurred: %s' % error
 
-@app.route('/inbox')
-def list_of_messages():
-
-    headers_dict = Email.query.all()
-
-    return render_template("inbox.html",
-                            headers_dict=headers_dict)
-
-@app.route('/handle-message/<msg_id>')
-def get_msg_body(msg_id):
+@app.route('/handle-message')
+def get_msg_body():
         """List body of message."""
 
         credentials = get_credentials()
@@ -146,6 +138,7 @@ def get_msg_body(msg_id):
         gmail_service = get_api(credentials)
         query = 'is:inbox'
 
+        msg_id = request.args.get('id')
 
         message_info = get_message_by_id(gmail_service, 'me', msg_id)
 
@@ -155,21 +148,50 @@ def get_msg_body(msg_id):
 
         for part in msg_body_inst.walk(): #this walk method from the email lib is a generator
             if part.get_content_type() == 'text/html' or part.get_content_type() == 'text/plain':
-                message = part.get_payload()
+                message_payload = part.get_payload()
+                message = message_payload.replace("\t", " ") #replaces the hard tab with single space to prevent the message rendered from concatenating
 
-                # import pdb; pdb.set_trace() #Debugging
-
-                soup = BeautifulSoup(message, "html5lib")
-                g = soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
-                # g = str(g)
             #     message_body = Email(email_id=msg_id, body_content=message)
 
             #     db.session.add(message_body)
             # db.session.commit()
+                return jsonify(message=message, msg_id=msg_id)
 
-        return render_template("message_body.html",
-                                soup=g,
-                                msg_id=msg_id)
+# @app.route('/handle-message/<msg_id>')
+# def get_msg_body(msg_id):
+#         """List body of message."""
+
+#         credentials = get_credentials()
+#         if not credentials:
+#             return redirect(url_for('oauth2callback'))
+
+#         gmail_service = get_api(credentials)
+#         query = 'is:inbox'
+
+#         message_info = get_message_by_id(gmail_service, 'me', msg_id)
+
+#         msg_body_str = base64.urlsafe_b64decode(message_info['payload']['parts'][1]['body']['data'].encode('utf-8'))
+
+#         msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
+
+#         for part in msg_body_inst.walk(): #this walk method from the email lib is a generator
+#             if part.get_content_type() == 'text/html' or part.get_content_type() == 'text/plain':
+#                 message_payload = part.get_payload()
+#                 message = message_payload.replace("\t", " ") #replaces the hard tab with single space to prevent the message rendered from concatenating
+
+#                 # import pdb; pdb.set_trace() #Debugging
+
+#                 # soup = BeautifulSoup(message, "html5lib")
+#                 # g = soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
+#                 # g = str(g)
+#             #     message_body = Email(email_id=msg_id, body_content=message)
+
+#             #     db.session.add(message_body)
+#             # db.session.commit()
+#                 # return message
+#         return render_template("message_body.html",
+#                                 message=message,
+#                                 msg_id=msg_id)
 
 def get_message_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
@@ -182,13 +204,32 @@ def create_task(msg_id):
     return render_template("tasks.html",
                             msg_id=msg_id)
 
-@app.route('/task-list/<msg_id>', methods=['POST'])
-def search_task(msg_id):
+# @app.route('/task-list/<msg_id>', methods=['POST'])
+# def search_task(msg_id):
+#     """Show list of all tasks."""
+    
+#     # import pdb; pdb.set_trace()
+#     task = request.form.get('entertask')
+#     duedate = request.form.get('duedate')
+#     taskcomp = request.form.get('comp')
+
+#     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
+
+#     if taskpresentindb is None:
+#         task = Task(email_id= msg_id, task_name=task, due_date=duedate, task_completed=taskcomp)
+#         db.session.add(task)
+#         db.session.commit()
+
+#     return redirect("/task-list")
+
+@app.route('/task-list')
+def search_task():
     """Show list of all tasks."""
     
+    # import pdb; pdb.set_trace()
     task = request.form.get('entertask')
     duedate = request.form.get('duedate')
-    taskcomp = request.form.get('taskcomp')
+    taskcomp = request.form.get('comp')
 
     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
 
@@ -213,9 +254,7 @@ def list_of_tasks():
 def seach_tasks():
     """Search for tasks"""
 
-    # import pdb; pdb.set_trace() #Debugging
-
-    task_search = request.args.get("q") #this correctly prints the value of my search
+    task_search = request.args.get("queryterm") #this correctly prints the value of my search
     
     taskdb = db.session.query(Task) #this is querying my task db
     results = search(taskdb, task_search) #the search query parser should look for the results of task_search against my db query

@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/static/css/inbox.css">
     <script src="/static/js/inbox.js"></script>
     <title>Inbox</title>
@@ -18,20 +22,22 @@
     <a href="/task-list">Search</a>
     </div>
 
-    <div id="content">
-    <table width="800">
-        <tr>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <tr>
             <th>From</th>
             <th>Subject</th>
             <th>Date</th>
 
         {% for key, message in headers_dict.items() %}
-        </tr>
+          <tr>
             <td> {{ message['From'] }}</td>
             <td><div class="span4"><a href="/handle-message/{{ key }}" onclick="openMessage();">{{ message['Subject'] }} </a></div></td>
             <td> {{ message['Date'] }}</td>
-        </tr>
-        {% endfor %}
+          </tr>
+            {% endfor %}
+        </tbody>
     </table>
     </div>
 </body>

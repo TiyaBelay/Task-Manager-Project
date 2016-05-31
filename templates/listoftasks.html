@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="/static/js/listoftasks.js"></script>
 </head>
 
 <form action="/search-tasks" id="search-form">
@@ -21,15 +22,16 @@
         <th>Due Date</th>
         <th>Task Completed</th>
 
-        {% for i in tasks %}
+      {% for i in tasks %}
       <tr>
-        <td contenteditable='true'> {{ i.task_name }} </td>
+        <td> {{ i.task_name }} </td>
         <td> {{ i.task_created_at }} </td>
         <td> {{ i.due_date }} </td>
-        <td contenteditable='true'> {{ i.task_completed }} </td>
+        <td><input id = "completed" type="checkbox" name="comp" value="Completed"></td>
       </tr>
-        {% endfor %}
+      {% endfor %}
     </tbody>
   </table>
-  {% endblock %}
+  <script src="/static/js/listoftasks.js"></script>
 </div>
+{% endblock %}

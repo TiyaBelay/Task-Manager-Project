@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <!-- <link rel="stylesheet" href="/static/css/messagebody.css"> -->
+    <div class="container">
     <p align="right">
     <a href="/task/{{ msg_id }}" id='create-task' type="button">Create a task</a>
     </p>
-        {{ soup }}
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe class="embed-responsive-item" src="data:text/html;charset=utf-8, {{ message.decode('utf-8') }}">
+        </iframe>
+    </div>
+    </div>
 {% endblock %}
