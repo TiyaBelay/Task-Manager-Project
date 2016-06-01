@@ -47,15 +47,52 @@
             <td> {{ message['Subject'] }} </td>
             <td> {{ message['Date'] }}</td>
           </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
     </div>
 
-    <div id='create-task' style="display:none;" align="right"><button>Create a task</button></div>
-    <div id="messageoutput"></div>
+<!-- Task Button trigger modal -->
+<div id='create-task' style="display:none;" align="right">
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+  Create a task
+</button>
+
+<!-- Modal -->
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel" align="left">New Task</h4>
+      </div>
+      <div class="modal-body">
+        <form align="left" action="/task-list">
+        <label> Enter Task </label>
+            <textarea type="text" size="100" id="taskname" name="entertask" value="Enter Task" required="required"></textarea>
+        <br>
+        <label> Due Date </label>
+            <input type="date" id="duedate" name="duedate" required="required ">
+        <br>
+        <label>
+            <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
+        </label>
+    </form></div>
+      <div class="modal-footer">
+        <button id="submit" type="button" class="btn btn-primary" onclick="/task-list">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Body of message -->
+<div id="messageoutput"></div>
+    
 
     <script src="/static/js/inbox.js"></script>
 </body>
-</div>
 </html>

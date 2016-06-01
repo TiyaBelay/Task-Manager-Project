@@ -157,91 +157,43 @@ def get_msg_body():
             # db.session.commit()
                 return jsonify(message=message, msg_id=msg_id)
 
-# @app.route('/handle-message/<msg_id>')
-# def get_msg_body(msg_id):
-#         """List body of message."""
-
-#         credentials = get_credentials()
-#         if not credentials:
-#             return redirect(url_for('oauth2callback'))
-
-#         gmail_service = get_api(credentials)
-#         query = 'is:inbox'
-
-#         message_info = get_message_by_id(gmail_service, 'me', msg_id)
-
-#         msg_body_str = base64.urlsafe_b64decode(message_info['payload']['parts'][1]['body']['data'].encode('utf-8'))
-
-#         msg_body_inst = email.message_from_string(msg_body_str) #converts my message body string to an instance using python's install lib 'email'
-
-#         for part in msg_body_inst.walk(): #this walk method from the email lib is a generator
-#             if part.get_content_type() == 'text/html' or part.get_content_type() == 'text/plain':
-#                 message_payload = part.get_payload()
-#                 message = message_payload.replace("\t", " ") #replaces the hard tab with single space to prevent the message rendered from concatenating
-
-#                 # import pdb; pdb.set_trace() #Debugging
-
-#                 # soup = BeautifulSoup(message, "html5lib")
-#                 # g = soup.prettify() #This will render an html without the need to render a template, which is a problem since I need to be able to render a page to add the ability to create a task
-#                 # g = str(g)
-#             #     message_body = Email(email_id=msg_id, body_content=message)
-
-#             #     db.session.add(message_body)
-#             # db.session.commit()
-#                 # return message
-#         return render_template("message_body.html",
-#                                 message=message,
-#                                 msg_id=msg_id)
 
 def get_message_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
     return message
 
-@app.route('/task/<msg_id>')
-def create_task(msg_id):
-    """Create new task"""
-
-    return render_template("tasks.html",
-                            msg_id=msg_id)
-
-# @app.route('/task-list/<msg_id>', methods=['POST'])
-# def search_task(msg_id):
-#     """Show list of all tasks."""
-    
-#     # import pdb; pdb.set_trace()
-#     task = request.form.get('entertask')
-#     duedate = request.form.get('duedate')
-#     taskcomp = request.form.get('comp')
-
-#     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
-
-#     if taskpresentindb is None:
-#         task = Task(email_id= msg_id, task_name=task, due_date=duedate, task_completed=taskcomp)
-#         db.session.add(task)
-#         db.session.commit()
-
-#     return redirect("/task-list")
-
-@app.route('/task-list')
+@app.route('/add-tasks')
 def search_task():
     """Show list of all tasks."""
     
     # import pdb; pdb.set_trace()
-    task = request.form.get('entertask')
-    duedate = request.form.get('duedate')
-    taskcomp = request.form.get('comp')
+    msg_id = request.args.get('msgid')
+    task = request.args.get('entertask')
+    duedate = request.args.get('duedate')
+    # taskcomp = request.form.get('comp')
 
     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
 
     if taskpresentindb is None:
-        task = Task(email_id= msg_id, task_name=task, due_date=duedate, task_completed=taskcomp)
+        task = Task(email_id=msg_id, task_name=task, due_date=duedate)
         db.session.add(task)
         db.session.commit()
 
-    return redirect("/task-list")
+    return jsonify(msg_id=msgid)
 
 @app.route("/task-list")
 def list_of_tasks():
+
+    # import pdb; pdb.set_trace()
+    task_completion = request.form.get("comp")
+    task_name = request.form.get("task")
+
+    taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
+
+    if taskindb:
+        task_comp = Task(task_completed=task_completion).update()
+        db.session.add(task_comp)
+        db.session.commit()
 
     tasks = Task.query.all()
 

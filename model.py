@@ -55,7 +55,7 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     task_name = db.Column(db.String(200), nullable=False, unique=True)
     task_created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    due_date = db.Column(db.DateTime, nullable=True)
+    due_date = db.Column(db.Date, nullable=True)
     task_completed = db.Column(db.Boolean, nullable=True)
     #Since I want the task_name to be searchable, it got defined within the search vector
     search_vector = db.Column(TSVectorType('task_name'))
