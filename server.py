@@ -14,14 +14,12 @@ from flask.json import jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
 
-#Imported search function to query from db
 from sqlalchemy_searchable import search
 
 app = Flask(__name__)
 
 app.secret_key = os.environ["FLASK_APP_KEY"]
 
-#Added this to raise an error when an undefined variable is used in Jinja
 app.jinja_env.undefined = StrictUndefined 
 
 @app.route("/")
@@ -32,7 +30,7 @@ def login():
 
 @app.route("/oauth2callback")
 def oauth2callback():
-    #created an object used to operate OAuth 2.0 operations
+    #created an object used to operate OAuth 2.0
     flow = client.flow_from_clientsecrets(
                     'client_secret.json',
                     scope='https://www.googleapis.com/auth/gmail.readonly',
@@ -63,36 +61,37 @@ def get_api(credentials):
 
 @app.route('/inbox')
 def inbox():
-        """List Messages of the user's inbox matching the query."""
+    """List Messages of the user's inbox matching the query."""
 
-        credentials = get_credentials()
-        if not credentials:
-            return redirect(url_for('oauth2callback'))
+    credentials = get_credentials()
+    if not credentials:
+        return redirect(url_for('oauth2callback'))
 
-        gmail_service = get_api(credentials)
-        query = 'is:inbox'
+    gmail_service = get_api(credentials)
+    query = 'is:inbox'
 
-        headers_dict = get_payload_headers(gmail_service, query)
+    headers_dict = get_payload_headers(gmail_service, query)
 
-        return render_template("index.html", 
-                                headers_dict=headers_dict)
+    return render_template("index.html", 
+                            headers_dict=headers_dict)
 
 @app.route('/handle-message')
 def get_msg_body():
-        """Retrieve body of message."""
+    """Retrieve body of message."""
 
-        credentials = get_credentials()
-        if not credentials:
-            return redirect(url_for('oauth2callback'))
+    credentials = get_credentials()
+    if not credentials:
+        return redirect(url_for('oauth2callback'))
 
-        gmail_service = get_api(credentials)
-        query = 'is:inbox'
+    gmail_service = get_api(credentials)
+    query = 'is:inbox'
 
-        msg_id = request.args.get('id')
+    msg_id = request.args.get('id')
 
-        message = msg_body(gmail_service, msg_id)
+    message = msg_body(gmail_service, msg_id)
 
-        return jsonify(message=message, msg_id=msg_id)
+    return jsonify(message=message, 
+                    msg_id=msg_id)
 
 @app.route('/add-tasks')
 def search_task():
@@ -134,7 +133,7 @@ def list_of_tasks():
 #Got help from this doc in regards to SQLAlchemy-Searchable
 #https://sqlalchemy-searchable.readthedocs.io/en/latest/search_query_parser.html
 @app.route("/search-tasks")
-def seach_tasks():
+def search_results():
     """Search for tasks"""
 
     task_search = request.args.get("queryterm")
