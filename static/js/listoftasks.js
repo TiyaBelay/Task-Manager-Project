@@ -5,11 +5,11 @@
 $(".table tr").click(function() {
     var True = True;
     var False = False;
-    var taskname = this.id;
-    if($("#completed").is(":checked")) {
-        $.get("/task-list", {'comp': True, 'task': taskname}), alert("Task completed!");
+    var taskname = this.getElementsByClassName("taskname")[0].id;
+    if($("#checkbox").is(":checked")) {
+        $.get("/task-list", {'comp': True, 'task': taskname});
     } else {
-        $.get("/task-list", {'comp': False, 'task': taskname}), alert("Incomplete task");
+        $.get("/task-list", {'comp': False, 'task': taskname});
     }
 });
 
@@ -17,6 +17,6 @@ $(".table tr").click(function() {
 $("#checkbox").click(function() {
     if($(this).is(":checked")) {
         var taskComp = new Date();
-        $.get("/task-list", {'compdate': taskComp}, alert("added to DB"));
+        $.get("/task-list", {'compdate': taskComp});
     }
 })

@@ -24,7 +24,7 @@
 
       {% for i in tasks %}
       <tr>
-        <td id="{{ i.task_name }}"> {{ i.task_name }} </td>
+        <td id="{{ i.task_name }}" class="taskname"> {{ i.task_name }} </td>
         <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} {{ i.task_created_at.hour }}:{{ i.task_created_at.minute }}:{{ i.task_created_at.second }} </td>
         <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>
         <td><input id = "checkbox" type="checkbox" name="comp" value="Completed"></td>
