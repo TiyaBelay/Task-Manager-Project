@@ -1,6 +1,7 @@
 // "use strict"; to capture undeclared variables
 "use strict";
 
+// Adding task completion checkbox to db
 $(".table tr").click(function() {
     var True = True;
     var False = False;
@@ -11,3 +12,11 @@ $(".table tr").click(function() {
         $.get("/task-list", {'comp': False, 'task': taskname}), alert("Incomplete task");
     }
 });
+
+// Adding completion date to db
+$("#checkbox").click(function() {
+    if($(this).is(":checked")) {
+        var taskComp = new Date();
+        $.get("/task-list", {'compdate': taskComp}, alert("added to DB"));
+    }
+})

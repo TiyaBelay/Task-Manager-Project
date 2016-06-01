@@ -185,13 +185,14 @@ def search_task():
 def list_of_tasks():
 
     # import pdb; pdb.set_trace()
-    task_completion = request.form.get("comp")
-    task_name = request.form.get("task")
+    task_completion = request.args.get("comp") #this returns None
+    task_name = request.args.get("task")
+    task_comp_date = request.args.get("compdate")
 
     taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
 
     if taskindb:
-        task_comp = Task(task_completed=task_completion).update()
+        task_comp = Task(task_completed=task_completion, ).update()
         db.session.add(task_comp)
         db.session.commit()
 

@@ -57,6 +57,7 @@ class Task(db.Model):
     task_created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     due_date = db.Column(db.Date, nullable=True)
     task_completed = db.Column(db.Boolean, nullable=True)
+    task_comp_date = db.Column(db.DateTime, nullable=True)
     #Since I want the task_name to be searchable, it got defined within the search vector
     search_vector = db.Column(TSVectorType('task_name'))
 
