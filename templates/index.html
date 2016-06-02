@@ -69,7 +69,7 @@
         <h4 class="modal-title" id="myModalLabel" align="left">New Task</h4>
       </div>
       <div class="modal-body">
-        <form align="left" action="/task-list">
+        <form align="left">
         <label> Enter Task </label>
             <textarea type="text" size="100" id="taskname" name="entertask" value="Enter Task" required="required"></textarea>
         <br>
@@ -79,11 +79,11 @@
         <label>
             <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
         </label>
-    </form></div>
-      <div class="modal-footer">
-        <button id="submit" type="button" class="btn btn-primary" onclick="/task-list">Submit</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
+      <div class="modal-footer">
+        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div></form>
     </div>
   </div>
 </div>
@@ -92,6 +92,34 @@
 <!-- Body of message -->
 <div id="messageoutput"></div>
     
+
+<!-- Search box-->
+<form action="/search-tasks" id="search-form">
+    <input id="searchbox" type="text" name="q" placeholder="Search">
+    <input type="submit" value="Enter">
+</form>
+
+<!-- List of tasks -->
+<div class="container">
+<table class="table">
+    <thead>
+      <tr>
+        <th>Task Name</th>
+        <th>Start Date</th>
+        <th>Due Date</th>
+        <th>Task Completed</th>
+
+      {% for i in tasks %}
+      <tr>
+        <td id="{{ i.task_name }}" class="taskname"> {{ i.task_name }} </td>
+        <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} {{ i.task_created_at.hour }}:{{ i.task_created_at.minute }}:{{ i.task_created_at.second }} </td>
+        <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>
+        <td><input id = "checkbox" type="checkbox" name="comp" value="Completed"></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+</table>
+</div>
 
     <script src="/static/js/inbox.js"></script>
 </body>

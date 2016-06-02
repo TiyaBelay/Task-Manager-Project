@@ -109,20 +109,22 @@ def search_task():
         db.session.add(task)
         db.session.commit()
 
-    return jsonify(msg_id=msgid)
+    tasks = Task.query.all()
+
+    return jsonify(msg_id=msg_id,
+                    tasks=tasks)
 
 @app.route("/task-list")
 def list_of_tasks():
 
     # import pdb; pdb.set_trace()
-    task_completion = request.args.get("comp") #this returns None
-    task_name = request.args.get("task")
+    task_completion = request.args.get('comp') #this returns None
+    task_name = request.args.get('task')
 
     taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
 
     if taskindb:
-        task_comp = Task(task_completed=task_completion).update()
-        db.session.add(task_comp)
+        taskindb.task_completed = task_completion
         db.session.commit()
 
     tasks = Task.query.all()
