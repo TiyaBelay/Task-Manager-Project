@@ -5,6 +5,7 @@ import base64
 import os
 import json, httplib2
 
+from fake_headers import HEADERS_DICT
 from parser import *
 from jinja2 import StrictUndefined
 from apiclient import discovery, errors
@@ -27,7 +28,7 @@ app.jinja_env.undefined = StrictUndefined
 def login():
     """Gmail login"""
 
-    return render_template("login.html")
+    return render_template("homepage.html")
 
 @app.route("/oauth2callback")
 def oauth2callback():
@@ -60,10 +61,7 @@ def get_api(credentials):
 
     return gmail_service
 
-@app.route('/inbox')
-def inbox():
-    """List Messages of the user's inbox matching the query."""
-
+def get_inbox():
     credentials = get_credentials()
     if not credentials:
         return redirect(url_for('oauth2callback'))
@@ -73,6 +71,23 @@ def inbox():
 
     headers_dict = get_payload_headers(gmail_service, query)
 
+    return headers_dict
+
+@app.route('/inbox')
+def inbox(): #Faking an API call
+    """List Messages of the user's inbox matching the query."""
+
+    # credentials = get_credentials()
+    # if not credentials:
+    #     return redirect(url_for('oauth2callback'))
+
+    # gmail_service = get_api(credentials)
+    # query = 'is:inbox'
+
+    # headers_dict = get_payload_headers(gmail_service, query)
+
+    headers_dict = HEADERS_DICT
+    
     return render_template("index.html", 
                             headers_dict=headers_dict)
 
@@ -110,7 +125,7 @@ def search_task():
         db.session.add(task)
         db.session.commit()
 
-    return redirect("/task-list")
+    return "Success"
 
 @app.route("/add-completed-tasks")
 def comp_tasks():

@@ -44,7 +44,16 @@ $("#submit").click(function() {
     if($("#slackchannel").is(":checked")) {
         $.post(
             SLACK_URL,
-            JSON.stringify({text: newSlackMessage + taskName})
+            JSON.stringify({text: newSlackMessage,
+                            "attachments": [
+                            {
+                                "color": "#36a64f",
+                                "author_name": "Tiya Belay",
+                                "author_icon": "https://avatars1.githubusercontent.com/u/18127030?v=3&s=460",
+                                "title": "email",
+                                "text": "Task: " + taskName,
+                            }]
+                        })
         );
         alert("Thanks. Notified your slack team!");
     };
@@ -54,5 +63,7 @@ $("#submit").click(function() {
 $("#submit").click(function() {
     var newTaskName = document.getElementById("taskname").value;
     var taskDueDate = document.getElementById("duedate").value;
-    $.get("/add-tasks", {'msgid': msgIdResult, 'entertask': newTaskName, 'duedate': taskDueDate});
+    $.get("/add-tasks", {'msgid': msgIdResult, 'entertask': newTaskName, 'duedate': taskDueDate}, function() {
+        window.location="/task-list";
+    });
 });

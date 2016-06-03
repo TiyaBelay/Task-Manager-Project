@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-</head>
 
-<form action="/search-tasks" id="search-form">
-    <input id="searchbox" type="text" name="queryterm" placeholder="Search">
-    <input type="submit" value="Enter">
-</form>
+<div class="col-lg-2">
+  <form action="/search-tasks" id="search-form">
+    <div class="input-group">
+      <input id="searchbox" type="text" name="queryterm" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+    </div>
+  </form>
+</div>
 
 <div class="container">
   <table class="table">
-    <h1>Search Results</h1>
     <thead>
       <tr>
         <th>Task Name</th>
-        <th>Start Date</th>
-        <th>Due Date</th>
+        <th>Created on</th>
+        <th>Due</th>
         <th>Task Completed</th>
 
-        {% for i in results %}
+      {% for i in results %}
       <tr>
-        <td> {{ i.task_name }} </td>
-        <td> {{ i.task_created_at }} </td>
-        <td> {{ i.due_date }} </td>
-        <td> {{ i.task_completed }} </td>
+        <td id="{{ i.task_name }}" class="taskname"> {{ i.task_name }} </td>
+        <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} </td>
+        <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>
+        {% if i.task_completed == True %}
+        <td><input class="checkbox" type="checkbox" name="comp" checked="yes"></td>
+        {% else %}
+        <td><input class="checkbox" type="checkbox" name="comp"></td>
+        {% endif %}
       </tr>
-        {% endfor %}
+      {% endfor %}
     </tbody>
   </table>
-  {% endblock %}
+  <script src="/static/js/listoftasks.js"></script>
 </div>
+{% endblock %}
