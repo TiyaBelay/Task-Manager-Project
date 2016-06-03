@@ -51,13 +51,6 @@ $("#submit").click(function() {
 });
 
 // Adds task info to db
-
-function getTasks(response) {
-    var tasks = response.tasks;
-    $(".messageoutput").hide();
-}
-
-
 $("#submit").click(function() {
     var newTaskName = document.getElementById("taskname").value;
     var taskDueDate = document.getElementById("duedate").value;

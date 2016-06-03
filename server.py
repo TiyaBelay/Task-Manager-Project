@@ -13,6 +13,7 @@ from flask import Flask, session, render_template, request, flash, redirect, url
 from flask.json import jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
+from datetime import datetime
 
 from sqlalchemy_searchable import search
 
@@ -109,23 +110,29 @@ def search_task():
         db.session.add(task)
         db.session.commit()
 
-    tasks = Task.query.all()
+    return redirect("/task-list")
 
-    return jsonify(msg_id=msg_id,
-                    tasks=tasks)
-
-@app.route("/task-list")
-def list_of_tasks():
+@app.route("/add-completed-tasks")
+def comp_tasks():
 
     # import pdb; pdb.set_trace()
-    task_completion = request.args.get('comp') #this returns None
+    task_completion = request.args.get('comp')
     task_name = request.args.get('task')
+    task_date_unicode = request.args.get('task_comp_date')
+    task_date_parsed = datetime.strptime(task_date_unicode.split(' G')[0], '%a %b %d %Y %H:%M:%S').strftime('%m/%d/%Y %H:%M:%S')
 
     taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
 
     if taskindb:
         taskindb.task_completed = task_completion
+        taskindb.task_comp_date=task_date_parsed
         db.session.commit()
+        
+        return jsonify(task_completion=task_completion, 
+                        task_name=task_name)
+
+@app.route("/task-list")
+def list_of_tasks():
 
     tasks = Task.query.all()
 

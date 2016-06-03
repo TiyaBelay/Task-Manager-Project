@@ -8,10 +8,12 @@
   <script src="/static/js/listoftasks.js"></script>
 </head>
 
+<div class="container">
 <form action="/search-tasks" id="search-form">
     <input id="searchbox" type="text" name="q" placeholder="Search">
     <input type="submit" value="Enter">
 </form>
+</div>
 
 <div class="container">
   <table class="table">
@@ -25,9 +27,13 @@
       {% for i in tasks %}
       <tr>
         <td id="{{ i.task_name }}" class="taskname"> {{ i.task_name }} </td>
-        <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} {{ i.task_created_at.hour }}:{{ i.task_created_at.minute }}:{{ i.task_created_at.second }} </td>
+        <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} </td>
         <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>
-        <td><input id = "checkbox" type="checkbox" name="comp" value="Completed"></td>
+        {% if i.task_completed == True %}
+        <td><input class="checkbox" type="checkbox" name="comp" checked="yes"></td>
+        {% else %}
+        <td><input class="checkbox" type="checkbox" name="comp"></td>
+        {% endif %}
       </tr>
       {% endfor %}
     </tbody>
