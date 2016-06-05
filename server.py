@@ -61,7 +61,22 @@ def get_api(credentials):
 
     return gmail_service
 
-def get_inbox():
+# def get_inbox():
+#     credentials = get_credentials()
+#     if not credentials:
+#         return redirect(url_for('oauth2callback'))
+
+#     gmail_service = get_api(credentials)
+#     query = 'is:inbox'
+
+#     headers_dict = get_payload_headers(gmail_service, query)
+
+    # return headers_dict
+
+@app.route('/inbox')
+def inbox(): #Faking an API call
+    """List Messages of the user's inbox matching the query."""
+
     credentials = get_credentials()
     if not credentials:
         return redirect(url_for('oauth2callback'))
@@ -71,23 +86,8 @@ def get_inbox():
 
     headers_dict = get_payload_headers(gmail_service, query)
 
-    return headers_dict
+    # headers_dict = HEADERS_DICT
 
-@app.route('/inbox')
-def inbox(): #Faking an API call
-    """List Messages of the user's inbox matching the query."""
-
-    # credentials = get_credentials()
-    # if not credentials:
-    #     return redirect(url_for('oauth2callback'))
-
-    # gmail_service = get_api(credentials)
-    # query = 'is:inbox'
-
-    # headers_dict = get_payload_headers(gmail_service, query)
-
-    headers_dict = HEADERS_DICT
-    
     return render_template("index.html", 
                             headers_dict=headers_dict)
 
@@ -138,13 +138,17 @@ def comp_tasks():
 
     taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
 
+    email_task = taskindb.email.subject
+
+
     if taskindb:
         taskindb.task_completed = task_completion
         taskindb.task_comp_date=task_date_parsed
         db.session.commit()
         
         return jsonify(task_completion=task_completion, 
-                        task_name=task_name)
+                        task_name=task_name,
+                        email_task=email_task)
 
 @app.route("/task-list")
 def list_of_tasks():

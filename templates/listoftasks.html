@@ -5,9 +5,7 @@
   <form action="/search-tasks" id="search-form">
     <div class="input-group">
       <input id="searchbox" type="text" name="queryterm" class="form-control" placeholder="Search for...">
-        <span class="input-group-btn">
-          <input class="btn btn-default" type="submit" value="Go">
-        </span>
+        <span class="input-group-btn"><input class="btn btn-default" type="submit" value="Go"></span>
     </div>
   </form>
 </div>
@@ -19,7 +17,7 @@
         <th>Task Name</th>
         <th>Created on</th>
         <th>Due</th>
-        <th>Task Completed</th>
+        <th>Completed</th>
 
       {% for i in tasks %}
       <tr>
@@ -27,9 +25,9 @@
         <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} </td>
         <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>
         {% if i.task_completed == True %}
-        <td><input class="checkbox" type="checkbox" name="comp" checked="yes"></td>
+          <td><input class="checkbox" type="checkbox" name="comp" checked="yes"></td>
         {% else %}
-        <td><input class="checkbox" type="checkbox" name="comp"></td>
+          <td><input class="checkbox" type="checkbox" name="comp"></td>
         {% endif %}
       </tr>
       {% endfor %}

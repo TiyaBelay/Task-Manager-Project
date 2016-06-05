@@ -13,9 +13,17 @@
 
         {% for key, message in headers_dict.items() %}
           <tr id="{{ key }}" class="messagebody">
-            <td> {{ message['From'] }}</td>
-            <td> {{ message['Subject'] }} </td>
-            <td> {{ message['Date'] }}</td>
+            {% if " " in message['From'] %}
+                <td> {{ message['From'].split("<")[0] }} <br> {{ message['From'].split(">")[0].split("<")[1] }} </td>
+            {% else %}
+                <td> {{ message['From'] }} </td>
+            {% endif %}
+                <td> {{ message['Subject'] }} </td>
+            {% if " -" in message['Date'] %}
+                <td> {{ message['Date'].split(" -")[0] }}</td>
+            {% else %}
+                <td> {{ message['Date'].split(" +")[0] }}</td>
+            {% endif %}
           </tr>
         {% endfor %}
         </tbody>
@@ -61,7 +69,6 @@
 
 <!-- Body of message -->
 <div id="messageoutput"></div>
-
-<script src="/static/js/inbox.js"></script>
+<script src="/static/js/inbox.js"></script> 
 
 {% endblock %}

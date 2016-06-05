@@ -1,4 +1,3 @@
-import timestring
 import email
 import base64
 import os
@@ -34,7 +33,6 @@ def get_payload_headers(gmail_service, query):
                         headers_dict[key] = header_dict
 
                     date_str = header_dict['Date']
-                    Date = timestring.Date(date_str)
                     From = header_dict['From']
                     Subject = header_dict['Subject']
                     msg_id = key
@@ -42,7 +40,7 @@ def get_payload_headers(gmail_service, query):
                     emailpresentindb = db.session.query(Email).filter(Email.email_id == msg_id).first()
 
                     if emailpresentindb is None:
-                        message = Email(email_id=msg_id, subject=Subject, sender_email=From, received_at=Date)
+                        message = Email(email_id=msg_id, subject=Subject, sender_email=From, received_at=date_str)
                         db.session.add(message)
                         db.session.commit()
 
