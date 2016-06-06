@@ -55,10 +55,10 @@ during my second sprint where I will be using Angular. Currently, I'm just conce
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
 #My inbox Page - 
-![Screenshot of my inbox](https://cloud.githubusercontent.com/assets/18127030/15580939/5bbdd24e-231f-11e6-8aac-eb412027254f.png)
+![Screenshot of my inbox](https://cloud.githubusercontent.com/assets/18127030/15828449/3535b86e-2bc4-11e6-8926-d6d7d40c4da4.png)
 
 #Task 
-![Screenshot of task page](https://cloud.githubusercontent.com/assets/18127030/15580988/8c6b6d70-231f-11e6-829f-1ea2b8d4bb8d.png)
+![Screenshot of task page](https://cloud.githubusercontent.com/assets/18127030/15828472/44675bee-2bc4-11e6-8eed-3d975848da14.png)
 
 #Second sprint:
 
@@ -66,12 +66,12 @@ Day 1-2:
 Cleaning up my web pages and my task list page. Also integrated with Slack using their
 inoming webhook without using their OAuth. Posting notifications is successful when a task is created. Need to continue working on notification to post with the title and when the task is completed. 
 
-![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15591894/aea7997e-2354-11e6-9af7-8cb51d7b107d.png)
+![Screenshot of slack notification](https://cloud.githubusercontent.com/assets/18127030/15828427/1e266e48-2bc4-11e6-93b9-bb536fe76e07.png)
 
 Day 3-4:
 Refractored code on my server.py file and completed search engine for tasks
 ![Screenshot of list of tasks](https://cloud.githubusercontent.com/assets/18127030/15591906/c3aa2274-2354-11e6-874e-174f50295aaa.png)
-![Screenshot of search query](https://cloud.githubusercontent.com/assets/18127030/15591968/0cd5e0c8-2355-11e6-9dc6-54070946bbd9.png)
+![Screenshot of search query](https://cloud.githubusercontent.com/assets/18127030/15828498/63c17b00-2bc4-11e6-9d48-c777ac172e59.png)
 
 
 
