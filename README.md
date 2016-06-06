@@ -70,7 +70,6 @@ inoming webhook without using their OAuth. Posting notifications is successful w
 
 Day 3-4:
 Refractored code on my server.py file and completed search engine for tasks
-![Screenshot of list of tasks](https://cloud.githubusercontent.com/assets/18127030/15591906/c3aa2274-2354-11e6-874e-174f50295aaa.png)
 ![Screenshot of search query](https://cloud.githubusercontent.com/assets/18127030/15828498/63c17b00-2bc4-11e6-9d48-c777ac172e59.png)
 
 
