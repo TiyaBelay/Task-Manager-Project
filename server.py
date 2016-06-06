@@ -61,7 +61,7 @@ def get_api(credentials):
 
     return gmail_service
 
-# def get_inbox():
+# def get_inbox(): #Faking an API call
 #     credentials = get_credentials()
 #     if not credentials:
 #         return redirect(url_for('oauth2callback'))
@@ -71,10 +71,10 @@ def get_api(credentials):
 
 #     headers_dict = get_payload_headers(gmail_service, query)
 
-    # return headers_dict
+#     return headers_dict
 
 @app.route('/inbox')
-def inbox(): #Faking an API call
+def inbox(): 
     """List Messages of the user's inbox matching the query."""
 
     credentials = get_credentials()
@@ -102,12 +102,20 @@ def get_msg_body():
     gmail_service = get_api(credentials)
     query = 'is:inbox'
 
+    import pdb; pdb.set_trace()
+
     msg_id = request.args.get('id')
 
     message = msg_body(gmail_service, msg_id)
 
+    email_in_db = db.session.query(Email).filter(Email.email_id == msg_id).one()
+    print email_in_db
+    email_subj = email_in_db.subject
+    print email_subj
+
     return jsonify(message=message, 
-                    msg_id=msg_id)
+                    msg_id=msg_id,
+                    email_subj=email_subj)
 
 @app.route('/add-tasks')
 def search_task():

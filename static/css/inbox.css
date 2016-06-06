@@ -2,3 +2,11 @@ tr {
     cursor: pointer; 
     cursor: hand; 
 }
+
+.fa fa-check-square {
+    display: none;
+}
+
+.fa fa-minus-square {
+    display: none;
+}

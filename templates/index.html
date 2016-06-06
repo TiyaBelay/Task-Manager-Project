@@ -4,12 +4,13 @@
     <div class="main">
     </div>
     <div class="container">
-      <table class="table">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th>From</th>
             <th>Subject</th>
             <th>Date</th>
+            <th>Status</th>
 
         {% for key, message in headers_dict.items() %}
           <tr id="{{ key }}" class="messagebody">
@@ -24,6 +25,8 @@
             {% else %}
                 <td> {{ message['Date'].split(" +")[0] }}</td>
             {% endif %}
+                <td><i class="fa fa-check-square" aria-hidden="true" style="font-size:24px;color:green; display:None;"></i>
+                  <i class="fa fa-minus-square" aria-hidden="true" style="font-size:24px;color:red;display:None"></i></td>
           </tr>
         {% endfor %}
         </tbody>
@@ -70,5 +73,6 @@
 <!-- Body of message -->
 <div id="messageoutput"></div>
 <script src="/static/js/inbox.js"></script> 
+<script src="/static/js/listoftasks.js"></script> 
 
 {% endblock %}

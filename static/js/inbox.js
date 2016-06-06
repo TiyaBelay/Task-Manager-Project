@@ -1,5 +1,6 @@
 // "use strict"; to capture undeclared variables
 "use strict";
+
 // Signs user out
 function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
@@ -7,13 +8,18 @@ function signOut() {
             console.log('User signed out.');
         });
     }
-    // Global msg id varibale being set to be used by other functions
+
+// Global msg id varibale being set to be used by other functions
 var msgIdResult;
+var msgSubjResult;
+
 // Retrieves body of message when clicking on any row in the inbox
 function getMessage(response) {
     var msgBody = response.message;
     var msgId = response.msg_id;
+    var msgSubj = response.email_subject;
     msgIdResult = msgId;
+    msgSubjResult = msgSubj;
     $(".table").hide();
     document.getElementById("messageoutput").innerHTML = msgBody;
     document.getElementById("create-task").style.display = "block";
@@ -26,6 +32,7 @@ function getId(evt) {
     }, getMessage);
 }
 $(".messagebody").click(getId);
+
 // Submits task to SlackChannel using incoming webhooks when checkbox is checked
 var SLACK_URL =
     "https://hooks.slack.com/services/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";
@@ -39,13 +46,14 @@ $("#submit").click(function() {
                 "color": "#36a64f",
                 "author_name": "Tiya Belay",
                 "author_icon": "https://avatars1.githubusercontent.com/u/18127030?v=3&s=460",
-                "title": "email",
+                "title": "Email: " + msgSubjResult,
                 "text": "Task: " + taskName,
             }]
         }));
         alert("Thanks. Notified your slack team!");
     };
 });
+
 // Adds task info to db
 $("#submit").click(function() {
     var newTaskName = document.getElementById("taskname").value;

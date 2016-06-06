@@ -39,10 +39,14 @@ $(".table tr").click(function() {
                 }],
             }]
         }));
+        $(".fa fa-check-square").show();
     } else {
         $.get("/add-completed-tasks", {
             'comp': 'False',
             'task': taskName
         });
+        $(".fa fa-minu-square").show();
     }
 });
+
+// Adding tags to emails based on checked tasks
