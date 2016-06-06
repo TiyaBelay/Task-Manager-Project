@@ -54,8 +54,6 @@ I've been rendering a page for the inbox, the body of the message, and the tasks
 during my second sprint where I will be using Angular. Currently, I'm just concentrating on the functionalities. Next when submitting
 the task, it routes to a page where the list of tasks will be living. I will be working on populating the list of tasks next.
 
-#My inbox Page - 
-![Screenshot of my inbox](https://cloud.githubusercontent.com/assets/18127030/15828449/3535b86e-2bc4-11e6-8926-d6d7d40c4da4.png)
 
 #Task 
 ![Screenshot of task page](https://cloud.githubusercontent.com/assets/18127030/15828472/44675bee-2bc4-11e6-8eed-3d975848da14.png)
