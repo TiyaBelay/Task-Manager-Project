@@ -34,7 +34,7 @@ $(".table tr").click(function() {
                 "title": "Email: " + email,
                 "text": "Task: " + taskName,
                 "fields": [{
-                    "value": "Completed:" +
+                    "value": "Completed: " +
                         taskComp
                 }],
             }]
