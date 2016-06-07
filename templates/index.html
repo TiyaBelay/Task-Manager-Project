@@ -23,9 +23,9 @@
             {% endif %}
                 <td> {{ message['Subject'] }} </td>
             {% if " -" in message['Date'] %}
-                <td> {{ message['Date'].split(" -")[0] }}</td>
+                <td> {{ message['Date'].split(" -")[0][:-9]}} <br> {{ message['Date'].split(" +")[0].split(" ")[4] }}</td>
             {% else %}
-                <td> {{ message['Date'].split(" +")[0] }}</td>
+                <td> {{ message['Date'].split(" +")[0][:-9]}} <br> {{ message['Date'].split(" +")[0].split(" ")[4] }}</td>
             {% endif %}
                 <td><i id="complete" class="fa fa-check-square"></i>
                   <i id="incomplete" class="fa fa-minus-square"></i></td>
