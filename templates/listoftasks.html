@@ -2,16 +2,18 @@
 {% block content %}
 
 <div class="container">
-  <table class="table table-hover">
+  <table class="table table-hover table-condensed">
     <thead>
       <tr>
         <th scope="row">Task Name</th>
         <th scope="row">Created on</th>
         <th scope="row">Due</th>
         <th scope="row">Completed</th>
-
-      {% for i in tasks %}
+      </tr>
+    </thead>
+    <tbody>
       <tr>
+        {% for i in tasks %}
         <td id="{{ i.task_name }}" class="taskname"> {{ i.task_name }} </td>
         <td> {{ i.task_created_at.month }}-{{ i.task_created_at.day }}-{{ i.task_created_at.year}} </td>
         <td> {{ i.due_date.month }}-{{ i.due_date.day }}-{{ i.due_date.year}} </td>

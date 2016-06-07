@@ -50,7 +50,6 @@ $("#submit").click(function() {
                 "text": "Task: " + taskName,
             }]
         }));
-        alert("Thanks. Notified your slack team!");
     };
 });
 

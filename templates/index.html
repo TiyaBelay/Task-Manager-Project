@@ -4,14 +4,16 @@
     <div class="main">
     </div>
     <div class="container">
-      <table class="table table-striped">
+      <table class="table table-striped table-hover table-condensed table-responsive" style="padding:0px;">
         <thead>
           <tr>
             <th>From</th>
             <th>Subject</th>
             <th>Date</th>
             <th>Status</th>
-
+          </tr>
+        </thead>
+        <tbody>
         {% for key, message in headers_dict.items() %}
           <tr id="{{ key }}" class="messagebody">
             {% if " " in message['From'] %}
@@ -25,8 +27,8 @@
             {% else %}
                 <td> {{ message['Date'].split(" +")[0] }}</td>
             {% endif %}
-                <td><i class="fa fa-check-square" aria-hidden="true" style="font-size:24px;color:green; display:None;"></i>
-                  <i class="fa fa-minus-square" aria-hidden="true" style="font-size:24px;color:red;display:None"></i></td>
+                <td><i id="complete" class="fa fa-check-square"></i>
+                  <i id="incomplete" class="fa fa-minus-square"></i></td>
           </tr>
         {% endfor %}
         </tbody>

@@ -3,10 +3,42 @@ tr {
     cursor: hand; 
 }
 
-.fa fa-check-square {
-    display: none;
+#complete {
+    font-size:24px;
+    color:green;
 }
 
-.fa fa-minus-square {
+#incomplete {
     display: none;
+    font-size:24px;
+    color:red;
+}
+
+.navbar-default .navbar-brand{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 24px;
+    color: white;
+    font-weight: 700;
+}
+
+#headers a {
+    color: white;
+    font-size: 16px;
+}
+
+.navbar {
+    background-color: #20B2AA;
+}
+
+#signout>a {
+    border:2px;
+    border-radius: 15px;
+    background-color: #336699;
+    color: white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.container {
+    padding: 0px;
 }

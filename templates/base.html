@@ -10,16 +10,16 @@
     
     <!-- Bootstrap Core CSS -->
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="/static/check-logo.png" type="image/gif" sizes="16x16">
+    <link rel="icon" href="/static/img/check-logo.png" type="image/gif" sizes="16x16">
     
     <!-- Custom CSS -->
+    <link href="/static/css/inbox.css" rel="stylesheet">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
     <!-- <meta content="458676616197-ao4l7kptq48hsfpqqebi7jp3u1idhlh3.apps.googleusercontent.com"name="google-signin-client_id"> -->
     <script async defer src="https://apis.google.com/js/platform.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <link href="/static/css/inbox.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery.js"></script>
 
 </head>
@@ -33,10 +33,10 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="/inbox">Messages <span class="pull-left hidden-xs showopacity glyphicon glyphicon-envelope"    style="font-size:16px;"></span></a></li>
+      <ul id="headers" class="nav navbar-nav">
+        <li><a href="/inbox">Messages <span class="pull-left hidden-xs showopacity glyphicon glyphicon-envelope"    style="font-size:16px; padding:2px"></span></a></li>
         <li><a href="/task-list">My Tasks <span class="pull-left hidden-xs showopacity glyphicon glyphicon-check"
-        style="font-size:16px;"></span></a></li>
+        style="font-size:16px; padding:2px"></span></a></li>
       </ul>
       <form action="/search-tasks" id="search-form" class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -44,7 +44,7 @@
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/signout" style="border:2px solid grey;border-radius: 15px;">Sign Out</a></li>
+        <li id="signout"><a href="/signout">Sign Out</a></li>
       </ul>
     </div>
     <!-- /.navbar-collapse -->
