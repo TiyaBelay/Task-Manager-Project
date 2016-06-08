@@ -26,7 +26,7 @@
     <script src="https://code.jquery.com/jquery.js"></script>
 
 </head>
-<nav class="navbar navbar-default" >
+<nav class="navbar navbar-default navbar-static-top" >
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -42,12 +42,13 @@
         style="font-size:16px; padding:2px"></span></a></li>
       </ul>
       <form action="/search-tasks" id="search-form" class="navbar-form navbar-left" role="search">
-        <div class="form-group">
-          <input id="searchbox" type="text" name="queryterm" class="form-control" placeholder="Search for..."><input class="btn btn-default" type="submit" value="Go">
+        <div class="form-group input-group">
+          <input id="searchbox" type="text" name="queryterm" class="form-control" placeholder="Search for...">
+          <span class="input-group-btn"><input class="btn btn-default" type="submit" value="Go"></span>
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li id="signout"><a href="/signout">Sign Out</a></li>
+        <li id="signout" style="border:2px white; color:white;"><a href="/signout">Sign Out</a></li>
       </ul>
     </div>
     <!-- /.navbar-collapse -->

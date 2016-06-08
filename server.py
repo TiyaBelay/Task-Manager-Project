@@ -72,7 +72,7 @@ def get_api(credentials):
 #     headers_dict = get_payload_headers(gmail_service, query)
 #     msg_id = get_payload_headers(gmail_service, query)
 
-#     return headers_dict, msg_id
+#     return headers_dict
 
 @app.route('/inbox')
 def inbox(): 
@@ -86,12 +86,8 @@ def inbox():
     query = 'is:inbox'
 
     headers_dict = get_payload_headers(gmail_service, query)
-    # msg_id = get_payload_headers(gmail_service, query)
 
     # headers_dict = HEADERS_DICT
-
-    # taskindb = db.session.query(Task).filter(Task.email_id == msg_id).first()
-    # task_comp_status = taskindb.task_completed
 
     return render_template("index.html", 
                             headers_dict=headers_dict)

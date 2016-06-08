@@ -40,8 +40,9 @@
 
 <!-- Task Button trigger modal -->
 <div id='create-task' style="display:none;" align="right">
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-  Create a task
+<button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#myModal">
+  <span class="glyphicon glyphicon-plus"></span>
+  Create task
 </button>
 
 <!-- Modal -->
@@ -52,15 +53,19 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title" id="myModalLabel" align="left">New Task</h4>
+        <h4 class="modal-title" id="myModalLabel" align="left">
+          <span class=" glyphicon glyphicon-plus"></span> New Task</h4>
       </div>
       <div class="modal-body">
         <form align="left">
-        <label> Enter Task </label>
-            <textarea type="text" size="100" id="taskname" name="entertask" value="Enter Task" required="required"></textarea>
+        <label>
+            <textarea class="form-control" rows="5" cols="40" type="text" id="taskname" name="entertask" value="Enter Task" required="required"></textarea>
+        </label>
         <br>
-        <label> Due Date </label>
-            <input type="date" id="duedate" name="duedate" required="required ">
+        <div class="form-group input-group">
+          <label> Due Date </label>
+            <input class="form-control" type="date" id="duedate" name="duedate" required="required ">
+        </div>
         <br>
         <label>
             <input id = "slackchannel" type="checkbox" name="collab" value="Share"> Share this task
@@ -76,7 +81,13 @@
 </div>
 
 <!-- Body of message -->
-<div id="messageoutput"></div>
+<div class="container">
+  <div class="row">
+      <div class="col-lg-8">
+        <div id="messageoutput"></div>
+      </div>
+  </div>
+</div>
 <script src="/static/js/inbox.js"></script> 
 <!-- <script src="/static/js/listoftasks.js"></script>  -->
 
