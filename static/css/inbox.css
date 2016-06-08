@@ -3,15 +3,14 @@ tr {
     cursor: hand; 
 }
 
-#complete {
+.fa.fa-check-square {
     font-size:24px;
     color:green;
 }
 
-#incomplete {
-    display: none;
+.fa.fa-minus-square {
     font-size:24px;
-    color:red;
+    color:grey;
 }
 
 .navbar-default .navbar-brand{

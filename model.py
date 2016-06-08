@@ -46,6 +46,12 @@ class Email(db.Model):
         return "<Email email_id=%s user_id=%s subject=%s sender_email=%s received_at=%s>" % (self.email_id, self.user_id, self.subject, self.sender_email, self.received_at)
 
 
+    def is_complete(self):
+       for task in self.tasks:
+           if task.task_completed:
+               return True
+       return False
+       
 class Task(db.Model):
     """Task details"""
 

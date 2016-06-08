@@ -44,6 +44,8 @@ def get_payload_headers(gmail_service, query):
                         db.session.add(message)
                         db.session.commit()
 
+                    header_dict['Email'] = db.session.query(Email).filter(Email.email_id == msg_id).first()
+
             return headers_dict
 
         except errors.HttpError, error:

@@ -61,7 +61,23 @@ def get_api(credentials):
 
     return gmail_service
 
-def get_inbox(): #Faking an API call
+# def get_inbox(): #Faking an API call
+#     credentials = get_credentials()
+#     if not credentials:
+#         return redirect(url_for('oauth2callback'))
+
+#     gmail_service = get_api(credentials)
+#     query = 'is:inbox'
+
+#     headers_dict = get_payload_headers(gmail_service, query)
+#     msg_id = get_payload_headers(gmail_service, query)
+
+#     return headers_dict, msg_id
+
+@app.route('/inbox')
+def inbox(): 
+    """List Messages of the user's inbox matching the query."""
+
     credentials = get_credentials()
     if not credentials:
         return redirect(url_for('oauth2callback'))
@@ -70,23 +86,12 @@ def get_inbox(): #Faking an API call
     query = 'is:inbox'
 
     headers_dict = get_payload_headers(gmail_service, query)
+    # msg_id = get_payload_headers(gmail_service, query)
 
-    return headers_dict
+    # headers_dict = HEADERS_DICT
 
-@app.route('/inbox')
-def inbox(): 
-    """List Messages of the user's inbox matching the query."""
-
-    # credentials = get_credentials()
-    # if not credentials:
-    #     return redirect(url_for('oauth2callback'))
-
-    # gmail_service = get_api(credentials)
-    # query = 'is:inbox'
-
-    # headers_dict = get_payload_headers(gmail_service, query)
-
-    headers_dict = HEADERS_DICT
+    # taskindb = db.session.query(Task).filter(Task.email_id == msg_id).first()
+    # task_comp_status = taskindb.task_completed
 
     return render_template("index.html", 
                             headers_dict=headers_dict)
@@ -101,8 +106,6 @@ def get_msg_body():
 
     gmail_service = get_api(credentials)
     query = 'is:inbox'
-
-    # import pdb; pdb.set_trace()
 
     msg_id = request.args.get('id')
 
@@ -121,10 +124,12 @@ def get_msg_body():
 def search_task():
     """Show list of all tasks."""
     
-    # import pdb; pdb.set_trace()
     msg_id = request.args.get('msgid')
+    print msg_id
     task = request.args.get('entertask')
+    print task
     duedate = request.args.get('duedate')
+    print duedate
 
     taskpresentindb = db.session.query(Task).filter(Task.task_name == task).first()
 
@@ -133,12 +138,11 @@ def search_task():
         db.session.add(task)
         db.session.commit()
 
-    return "Success"
+    return jsonify(msg_id=msg_id)
 
 @app.route("/add-completed-tasks")
 def comp_tasks():
 
-    # import pdb; pdb.set_trace()
     task_completion = request.args.get('comp')
     task_name = request.args.get('task')
     task_date_unicode = request.args.get('task_comp_date')
@@ -147,7 +151,6 @@ def comp_tasks():
     taskindb = db.session.query(Task).filter(Task.task_name == task_name).first()
 
     email_task = taskindb.email.subject
-
 
     if taskindb:
         taskindb.task_completed = task_completion

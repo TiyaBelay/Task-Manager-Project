@@ -36,15 +36,24 @@ $(".table tr").click(function() {
                 "fields": [{
                     "value": "Completed: " +
                         taskComp
-                }],
+                }]
             }]
         }));
-        $("#complete").show();
     } else {
         $.get("/add-completed-tasks", {
             'comp': 'False',
             'task': taskName
         });
-        $("#incomplete").show();
     }
 });
+
+// $(document).ready(function() {
+//     if ($(".checkbox").is(":checked")) {
+//         window.location = "/inbox";
+//         $("#complete").show();
+//     } else {
+//         window.location = "/inbox";
+//         $("#incomplete").show();
+//     }
+// });
+

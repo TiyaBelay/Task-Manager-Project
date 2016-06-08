@@ -27,8 +27,11 @@
             {% else %}
                 <td> {{ message['Date'].split(" +")[0][:-9]}} <br> {{ message['Date'].split(" +")[0].split(" ")[4] }}</td>
             {% endif %}
-                <td><i id="complete" class="fa fa-check-square"></i>
-                  <i id="incomplete" class="fa fa-minus-square"></i></td>
+            {% if message['Email'].is_complete() %}
+                <td><i class="fa fa-check-square"></i></td>
+            {% else %}
+                <td><i class="fa fa-minus-square"></i></td>
+            {% endif %}
           </tr>
         {% endfor %}
         </tbody>
@@ -64,7 +67,7 @@
         </label>
       </div>
       <div class="modal-footer">
-        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit" class="btn btn-primary">Submit</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div></form>
     </div>
@@ -75,6 +78,6 @@
 <!-- Body of message -->
 <div id="messageoutput"></div>
 <script src="/static/js/inbox.js"></script> 
-<script src="/static/js/listoftasks.js"></script> 
+<!-- <script src="/static/js/listoftasks.js"></script>  -->
 
 {% endblock %}
