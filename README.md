@@ -1,5 +1,3 @@
-track that
-
 TrackThat is an application built to manage your emails and improve collaboration between teams without the need to use multiple external trackers. Users can view their email after logging in with Gmail and start creating tasks for important emails. Users have the ability to share it with teams on their slack channels notifying their teams when tasks are created, completed as well time of completion. TrackThat will maintain and display all tasks that have been created with the ability to easily search through tasks. 
 
 
@@ -7,7 +5,6 @@ TrackThat is an application built to manage your emails and improve collaboratio
 * [Tech stack](#technologies)
 * [Features](#features)
 * [Installation](#install)
-* [Deployment](#deployment)
 * [Version 2.0](#future)
 
 ## <a name="technologies"></a>Technologies
@@ -48,3 +45,62 @@ User is then redirected to the task list page where all tasks that were created 
 The search engine uses a SQLAlchemy-searchable library to do a full-text search on the task name in my flask server.
 ![](https://cloud.githubusercontent.com/assets/18127030/15987379/073e0fea-2fdb-11e6-81e2-c0f8b64c0839.png)
 
+####Automated Slack notification for completed tasks
+![](https://cloud.githubusercontent.com/assets/18127030/15987582/a0534d52-2fe1-11e6-9104-4a629ef457a0.png)
+
+## <a name="install"></a>Installation
+
+To have this app running on your local computer, please follow the below steps:
+
+####Prerequisite
+
+Install PostgreSQL (Mac OSX).
+Python 2.6 or greater.
+A Google account with Gmail enabled.
+
+
+Clone repository:
+```
+$ git clone https://github.com/TiyaBelay/Task-Manager-Project
+```
+
+Create a virtual environment:
+
+```
+$ virtualenv env
+```
+Activate the virtual environment.
+```
+$ source env/bin/activate
+```
+Install dependencies.
+```
+$ pip install -r requirements.txt
+```
+To enable the Gmail functionality, you should create your project in the [Google Developers Console](https://console.developers.google.com/flows/enableapi?apiid=gmail).
+
+Run PostgreSQL (see the elephant icon active).
+
+Create database with the name 'taskmanager'.
+```
+$ createdb taskmanager
+
+$ psql taskmanager
+```
+To run the app from the command line of the terminal, run
+```
+$ python server.py
+```
+If you want to use SQLAlchemy to query the database, run in interactive mode
+```
+$ python -i server.py
+```
+
+## <a name="future"></a>Version 2.0
+
+Further development includes:
+- [ ] Allow multiple users
+- [ ] Integrate with Outlook
+- [ ] Include attachments in emails to share on Slack
+- [ ] Integrate with Slack API and OAuth
+- [ ] Testing
