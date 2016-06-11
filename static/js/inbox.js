@@ -60,7 +60,7 @@ $("#submit").click(function(e) {
                                 "color": "#36a64f",
                                 "author_name": "Tiya Belay",
                                 "author_icon": "https://avatars1.githubusercontent.com/u/18127030?v=3&s=460",
-                                "title": "Email: " + msgSubjResult,
+                                // "title": "Email: " + msgSubjResult,
                                 "text": "Task: " + taskName,
                             }]
                         })
@@ -71,12 +71,3 @@ $("#submit").click(function(e) {
     }
     e.preventDefault();
 });
-
-// Adds task info to db
-// $("#submit").click(function() {
-//     var newTaskName = document.getElementById("taskname").value;
-//     var taskDueDate = document.getElementById("duedate").value;
-//     $.get("/add-tasks", {'msgid': msgIdResult, 'entertask': newTaskName, 'duedate': taskDueDate}, function() {
-//         window.location="/task-list";
-//     });
-// });

@@ -31,7 +31,7 @@ $(".table tr").click(function() {
                 "color": "#36a64f",
                 "author_name": "Tiya Belay",
                 "author_icon": "https://avatars1.githubusercontent.com/u/18127030?v=3&s=460",
-                "title": "Email: " + email,
+                // "title": "Email: " + email,
                 "text": "Task: " + taskName,
                 "fields": [{
                     "value": "Completed: " +
