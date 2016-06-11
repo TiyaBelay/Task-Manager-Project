@@ -54,9 +54,9 @@ To have this app running on your local computer, please follow the below steps:
 
 ####Prerequisite
 
-..-Install PostgreSQL (Mac OSX).
-..-Python 2.6 or greater.
-..-A Google account with Gmail enabled.
+  -Install PostgreSQL (Mac OSX).
+  -Python 2.6 or greater.
+  -A Google account with Gmail enabled.
 
 
 Clone repository:
