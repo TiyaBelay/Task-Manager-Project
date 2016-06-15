@@ -4,6 +4,7 @@ import email
 import base64
 import os
 import json, httplib2
+import requests
 
 from fake_headers import HEADERS_DICT
 from parser import *
@@ -15,14 +16,51 @@ from flask.json import jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import User, Email, Task, connect_to_db, db
 from datetime import datetime
-
 from sqlalchemy_searchable import search
+from urllib.parse import quote, urlencode #importing contents of outlook lib
+
 
 app = Flask(__name__)
 
 app.secret_key = os.environ["FLASK_APP_KEY"]
 
 app.jinja_env.undefined = StrictUndefined 
+
+#Outlook OAuth2 flow authority
+authority = 'https://login.microsoftonline.com'
+
+# The authorize URL that initiates the OAuth2 client credential flow for admin consent
+authorize_url = '{0}{1}'.format(authority, '/common/oauth2/v2.0/authorize?{0}')
+
+# The token issuing endpoint
+token_url = '{0}{1}'.format(authority, '/common/oauth2/v2.0/token')
+
+scopes = [ 'openid',
+           'https://outlook.office.com/mail.read' ]
+
+client_secret = os.environ['OUTLOOK_APP_PWD']
+
+def get_signin_url(redirect_uri):
+  # Build the query parameters for the signin url
+  params = { 'client_id': os.environ["OUTLOOK_APP_KEY"],
+             'redirect_uri': url_for('homepage'),
+             'response_type': 'code',
+             'scope': ' '.join(str(i) for i in scopes)
+           }
+
+  signin_url = authorize_url.format(urlencode(params))
+
+  return signin_url
+
+#Create views
+def home(request):
+    redirect_uri = request.build_absolute_uri(reverse('tutorial:gettoken'))
+    sign_in_url = get_signin_url(redirect_uri)
+    return HttpResponse('<a href="' + sign_in_url +'">Click here to sign in and view your mail</a>')
+
+def gettoken(request):
+    auth_code = request.GET['code']
+    return HttpResponse('Authorization code: {0}'.format(auth_code))
 
 @app.route("/")
 def login():

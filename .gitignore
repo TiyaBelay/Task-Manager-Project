@@ -5,4 +5,5 @@ requirements.txt
 model.pyc
 server.pyc
 flask_tm_secret.sh
+outlook_secret.sh
 command_line_inbox.pyc
