@@ -210,8 +210,8 @@ def signout():
     return redirect("/")
 
 if __name__ == "__main__":
-    app.run(debug=True) # runs flask in debug mode, reloads code every time changes are made to this file
+    app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
     # connect_to_db(app, os.environ.get("DATABASE_URL"))
     
-    # app.run()
+    app.run()
