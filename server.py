@@ -212,6 +212,6 @@ def signout():
 if __name__ == "__main__":
     app.debug = True # runs flask in debug mode, reloads code every time changes are made to this file
 
-    # connect_to_db(app, os.environ.get("DATABASE_URL"))
+    connect_to_db(app)
     
     app.run()
