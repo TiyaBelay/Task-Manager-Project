@@ -74,3 +74,12 @@ def msg_body(gmail_service, msg_id):
             #     db.session.add(message_body)
             # db.session.commit()
         return message
+
+def msg_attachments(gmail_service, msg_id, prefix=""):
+    """Get and store attachments"""
+
+    message_info_attach = get_message_by_id(gmail_service, 'me', msg_id)
+
+    for part in message['payload']['parts']:
+        if part['filename']:
+            print part['filename']

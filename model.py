@@ -33,7 +33,7 @@ class Email(db.Model):
     email_id = db.Column(db.String(100), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
     subject = db.Column(db.String(200), nullable=False)
-    sender_email = db.Column(db.String(80), nullable=False)
+    sender_email = db.Column(db.String(200), nullable=False)
     sender_f_name = db.Column(db.String(30), nullable=True)
     sender_l_name = db.Column(db.String(30), nullable=True)
     received_at = db.Column(db.String(70), nullable=False)
