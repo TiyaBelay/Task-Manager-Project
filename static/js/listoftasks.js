@@ -46,14 +46,3 @@ $(".table tr").click(function() {
         });
     }
 });
-
-// $(document).ready(function() {
-//     if ($(".checkbox").is(":checked")) {
-//         window.location = "/inbox";
-//         $("#complete").show();
-//     } else {
-//         window.location = "/inbox";
-//         $("#incomplete").show();
-//     }
-// });
-

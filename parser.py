@@ -64,10 +64,16 @@ def msg_body(gmail_service, msg_id):
 
         msg_body_inst = email.message_from_string(msg_body_str)
 
+        import pdb; pdb.set_trace()
         for part in msg_body_inst.walk():
             if part.get_content_type() == 'text/html' or part.get_content_type() == 'text/plain':
                 message_payload = part.get_payload()
                 message = message_payload.replace("\t", " ") #replaces the hard tab with single space to prevent the message rendered from concatenating
+
+            if part.get('Content-Disposition') is None:
+                continue
+            filename = part.get_filename()
+            counter = 1
 
             #     message_body = Email(email_id=msg_id, body_content=message)
 
@@ -75,11 +81,3 @@ def msg_body(gmail_service, msg_id):
             # db.session.commit()
         return message
 
-def msg_attachments(gmail_service, msg_id, prefix=""):
-    """Get and store attachments"""
-
-    message_info_attach = get_message_by_id(gmail_service, 'me', msg_id)
-
-    for part in message['payload']['parts']:
-        if part['filename']:
-            print part['filename']

@@ -86,7 +86,7 @@ def oauth2callback():
         return redirect(url_for('inbox'))
 
 def get_credentials():
-    if 'credentials' not in session:
+    if 'credentials' not in session: 
         return False
     credentials = client.OAuth2Credentials.from_json(session['credentials'])
     if credentials.access_token_expired:
@@ -129,7 +129,7 @@ def get_msg_body():
     msg_id = request.args.get('id')
 
     message = msg_body(gmail_service, msg_id)
-    message_attach = msg_attachments(gmail_service, msg_id, prefix="")
+    # message_attach = msg_attachments(gmail_service, msg_id, prefix="")
 
     email_in_db = db.session.query(Email).filter(Email.email_id == msg_id).one()
     email_subj = email_in_db.subject
