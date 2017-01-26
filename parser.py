@@ -2,7 +2,7 @@ import email
 import base64
 import os
 from model import User, Email, Task, connect_to_db, db
-from apiclient import discovery, errors
+from apiclient import errors
 
 def get_payload_headers(gmail_service, query):
         """List Messages of the user's inbox matching the query."""
