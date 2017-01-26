@@ -74,10 +74,5 @@ def msg_body(gmail_service, msg_id):
                 continue
             filename = part.get_filename()
             counter = 1
-
-            #     message_body = Email(email_id=msg_id, body_content=message)
-
-            #     db.session.add(message_body)
-            # db.session.commit()
         return message
 
