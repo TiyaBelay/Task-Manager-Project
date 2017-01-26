@@ -2,7 +2,6 @@ import email
 import base64
 import os
 from model import User, Email, Task, connect_to_db, db
-from apiclient import discovery, errors
 
 def get_payload_headers(gmail_service, query):
         """List Messages of the user's inbox matching the query."""
@@ -47,9 +46,6 @@ def get_payload_headers(gmail_service, query):
                     header_dict['Email'] = db.session.query(Email).filter(Email.email_id == msg_id).first()
 
             return headers_dict
-
-        except errors.HttpError, error:
-            print 'An error occurred: %s' % error
 
 def get_message_by_id(service, user_id, msg_id):
     message = service.users().messages().get(userId=user_id, id=msg_id, format='full').execute()
